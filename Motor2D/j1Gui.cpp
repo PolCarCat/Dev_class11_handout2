@@ -81,7 +81,7 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, fPoint pos, SDL_R
 	Sprite* aux = new Sprite;
 	aux->type = type;
 	aux->position = pos;
-	aux->size = size;
+	aux->collider = size;
 	aux->tex = tex;
 	aux->enabled = enabled;
 	aux->idle_anim = anim;

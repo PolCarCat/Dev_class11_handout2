@@ -27,7 +27,7 @@ public:
 	bool Enable();
 
 	fPoint position;
-	SDL_Rect size;
+	SDL_Rect collider;
 	float scale;
 	SDL_Texture* tex;
 	interfacetype type;
