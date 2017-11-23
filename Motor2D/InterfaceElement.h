@@ -20,11 +20,11 @@ public:
 	};
 
 
-	bool Start();
-	bool PreUpdate();
-	bool PostUpdate();
-	bool CleanUp();
-	bool Enable();
+	virtual bool Start();
+	virtual bool PreUpdate();
+	virtual bool PostUpdate();
+	virtual bool CleanUp();
+	virtual bool Enable();
 
 	SDL_Rect collider;
 	float scale;
