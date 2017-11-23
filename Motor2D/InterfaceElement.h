@@ -20,11 +20,11 @@ public:
 	};
 
 
-	virtual bool Start();
-	virtual bool PreUpdate();
+	virtual bool Start() { return true; }
+	virtual bool PreUpdate() { return true; }
 	virtual bool PostUpdate();
-	virtual bool CleanUp();
-	virtual bool Enable();
+	virtual bool CleanUp() { return true; }
+	virtual bool Enable() { return true; }
 
 	SDL_Rect collider;
 	float scale;

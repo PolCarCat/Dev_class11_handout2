@@ -43,6 +43,7 @@ public:
 
 private:
 	p2List<InterfaceElement*> elements;
+	p2List<Sprite*> sprites;
 	SDL_Texture* atlas;
 	p2SString atlas_file_name;
 };
