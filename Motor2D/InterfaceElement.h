@@ -26,7 +26,6 @@ public:
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
 
-	fPoint position;
 	SDL_Rect collider;
 	float scale;
 	SDL_Texture* tex;

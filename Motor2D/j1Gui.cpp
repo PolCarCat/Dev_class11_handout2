@@ -32,6 +32,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
+	SDL_Rect rect{ 485, 829, 328, 103 };
+	AddSprite(InterfaceElement::SPRITE, { 10,10,10,10 }, atlas, true, rect);
 
 	return true;
 }
@@ -45,6 +47,13 @@ bool j1Gui::PreUpdate()
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	p2List_item<Sprite*>* current_sprite = sprites.start;
+	while (current_sprite != NULL)
+	{
+		current_sprite->data->PostUpdate();
+		current_sprite = current_sprite->next;
+	}
+
 	return true;
 }
 
@@ -62,12 +71,11 @@ const SDL_Texture* j1Gui::GetAtlas() const
 	return atlas;
 }
 
-InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype type, fPoint pos, SDL_Rect size, SDL_Texture* tex, bool enabled = true)
+InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled)
 {
 	InterfaceElement* aux = new InterfaceElement;
 	aux->type = type;
-	aux->position = pos;
-	aux->size = size;
+	aux->collider = size;
 	aux->tex = tex;
 	aux->enabled = enabled;
 
@@ -76,17 +84,16 @@ InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype ty
 	return aux;
 }
 
-Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, fPoint pos, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim)
+Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim)
 {
 	Sprite* aux = new Sprite;
 	aux->type = type;
-	aux->position = pos;
 	aux->collider = size;
 	aux->tex = tex;
 	aux->enabled = enabled;
 	aux->idle_anim = anim;
 
-	elements.add(aux);
+	sprites.add(aux);
 
 	return aux;
 }

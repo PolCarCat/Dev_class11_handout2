@@ -12,5 +12,7 @@ Sprite::~Sprite()
 
 bool Sprite::PostUpdate()
 {
-	App->render->Blit(tex, position.x, position.y, current_anim);
+	current_anim = &idle_anim;
+	App->render->Blit(tex, collider.x, collider.y,false, current_anim);
+	return true;
 }
