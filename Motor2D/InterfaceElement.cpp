@@ -14,4 +14,5 @@ InterfaceElement::~InterfaceElement()
 
 bool InterfaceElement::PostUpdate()
 {
+	return true;
 }

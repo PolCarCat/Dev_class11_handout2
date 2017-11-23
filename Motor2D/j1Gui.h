@@ -36,8 +36,8 @@ public:
 
 	// TODO 2: Create the factory methods
 	// Gui creation functions
-	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, fPoint pos, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
-	Sprite* AddSprite(InterfaceElement::interfacetype type, fPoint pos, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim);
+	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
+	Sprite* AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim);
 	const SDL_Texture* GetAtlas() const;
 
 

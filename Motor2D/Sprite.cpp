@@ -12,5 +12,6 @@ Sprite::~Sprite()
 
 bool Sprite::PostUpdate()
 {
-	App->render->Blit(tex, position.x, position.y, current_anim);
+	App->render->Blit(tex, collider.x, collider.y, current_anim);
+	return true;
 }

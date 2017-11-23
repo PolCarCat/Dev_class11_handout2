@@ -26,7 +26,6 @@ public:
 	bool CleanUp();
 	bool Enable();
 
-	fPoint position;
 	SDL_Rect collider;
 	float scale;
 	SDL_Texture* tex;
