@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LABEL_H__
+#define __LABEL_H__
+
 #include "InterfaceElement.h"
 #include "SDL_ttf\include\SDL_ttf.h"
 
@@ -30,6 +32,7 @@ public:
 	void getString(const char* string) const;
 	void getString(p2SString& string) const;
 	void setFont(Font* font);
+	void setFont(const char* font_path, int pSize);
 	Font* getFont();
 
 private:
@@ -37,3 +40,5 @@ private:
 	p2SString string;
 	Alignment alignment;
 };
+
+#endif

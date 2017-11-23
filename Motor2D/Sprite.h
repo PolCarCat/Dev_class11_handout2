@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __SPRITE_H__
+#define __SPRITE_H__
+
 #include "InterfaceElement.h"
 #include "p2Defs.h"
 #include "p2Log.h"
@@ -19,3 +21,4 @@ public:
 	SDL_Rect* current_anim;
 };
 
+#endif

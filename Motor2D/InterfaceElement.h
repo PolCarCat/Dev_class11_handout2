@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __INTERFACE_ELEMENT_H__
+#define __INTERFACE_ELEMENT_H__
+
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
@@ -34,3 +36,4 @@ public:
 
 };
 
+#endif

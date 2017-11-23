@@ -1,5 +1,5 @@
 #include "Label.h"
-
+#include "j1Fonts.h"
 
 
 Label::Label() : InterfaceElement()
@@ -8,7 +8,7 @@ Label::Label() : InterfaceElement()
 
 Label::Label(const char* font_path, int pSize) : InterfaceElement()
 {
-	font = TTF_OpenFont(font_path, pSize); // Needs to be closed (?)
+	setFont(App->font->Load(font_path, pSize));
 }
 
 Label::~Label()
@@ -53,7 +53,6 @@ void Label::setText(const char* string, ...)
 	{
 		static va_list  ap;
 
-		// Construct the string from variable arguments
 		va_start(ap, string);
 		this->string.create(string, ap);
 		va_end(ap);
@@ -78,6 +77,11 @@ void Label::getString(p2SString& string) const
 void Label::setFont(Font* font)
 {
 	this->font = font;
+}
+
+void Label::setFont(const char* font_path, int pSize)
+{
+	font = App->font->Load(font_path, pSize);
 }
 
 Font* Label::getFont()
