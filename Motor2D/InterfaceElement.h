@@ -20,11 +20,11 @@ public:
 	};
 
 
+	bool Enable(bool enable);
 	virtual bool Start();
 	virtual bool PreUpdate();
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
-	virtual bool Enable();
 
 	fPoint position;
 	SDL_Rect collider;
@@ -32,7 +32,6 @@ public:
 	SDL_Texture* tex;
 	interfacetype type;
 	bool enabled;
-
 
 };
 

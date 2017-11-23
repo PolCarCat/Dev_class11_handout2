@@ -55,6 +55,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Desenvolupament  ========\Modules\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Desenvolupament  ========\Modules\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -127,6 +130,9 @@
       <Filter>Desenvolupament  ========\Modules\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
+      <Filter>Desenvolupament  ========\Modules\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
       <Filter>Desenvolupament  ========\Modules\Interface</Filter>
     </ClInclude>
   </ItemGroup>
