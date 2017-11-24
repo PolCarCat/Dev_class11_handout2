@@ -6,7 +6,7 @@ Label::Label() : InterfaceElement()
 {
 }
 
-Label::Label(const char* font_path, int pSize) : InterfaceElement()
+Label::Label(const char* font_path, int pSize, FontColor color) : InterfaceElement()
 {
 	setFont(App->font->Load(font_path, pSize));
 }
@@ -29,6 +29,7 @@ bool Label::PreUpdate()
 
 bool Label::PostUpdate()
 {
+	TTF_RenderText_Shaded(font, string.GetString(), { 255, 255, 255, 255 }, { 0, 0, 0, 0 });
 	return true;
 }
 

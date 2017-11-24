@@ -3,6 +3,7 @@
 
 #include "InterfaceElement.h"
 #include "SDL_ttf\include\SDL_ttf.h"
+#include "SDL\include\SDL_pixels.h"
 
 typedef _TTF_Font Font;
 
@@ -16,8 +17,19 @@ public:
 		RIGHT
 	};
 
+	enum FontColor {
+		COLOR_WHITE,
+		COLOR_BLACK,
+		COLOR_GREY,
+		COLOR_RED,
+		COLOR_BLUE,
+		COLOR_YELLOW,
+		COLOR_GREEN,
+		COLOR_BROWN
+	};
+
 	Label();
-	Label(const char* font_path, int pSize);
+	Label(const char* font_path, int pSize, FontColor color);
 	~Label();
 
 	bool Start() override;
@@ -37,6 +49,7 @@ public:
 
 private:
 	Font* font = nullptr;
+	SDL_Color color;
 	p2SString string;
 	Alignment alignment;
 };

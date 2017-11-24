@@ -15,7 +15,7 @@ class Sprite :
 public:
 	Sprite();
 	~Sprite();
-	bool PostUpdate();
+	bool PostUpdate() override;
 
 	SDL_Rect idle_anim;
 	SDL_Rect* current_anim;
