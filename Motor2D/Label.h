@@ -29,7 +29,7 @@ public:
 	};
 
 	Label();
-	Label(const char* font_path, int pSize, FontColor color);
+	Label(iPoint pos, const char* font_path, int pSize, FontColor color);
 	~Label();
 
 	bool Start() override;

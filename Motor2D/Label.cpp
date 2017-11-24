@@ -6,9 +6,12 @@ Label::Label() : InterfaceElement()
 {
 }
 
-Label::Label(const char* font_path, int pSize, FontColor color) : InterfaceElement()
+Label::Label(iPoint pos, const char* font_path, int pSize, FontColor color) : InterfaceElement()
 {
+	this->collider = { pos.x, pos.y, 0, 0 };
 	setFont(App->font->Load(font_path, pSize));
+	Enable(true);
+	//this->color = color;
 }
 
 Label::~Label()

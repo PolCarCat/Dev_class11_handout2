@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "InterfaceElement.h"
 #include "Sprite.h"
+#include "Label.h"
 
 #define CURSOR_WIDTH 2
 
@@ -38,6 +39,7 @@ public:
 	// Gui creation functions
 	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
 	Sprite* AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim);
+	Label* AddLabel(iPoint pos, int psize, const char* font_path, Label::FontColor color);
 	const SDL_Texture* GetAtlas() const;
 
 

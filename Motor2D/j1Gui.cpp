@@ -47,7 +47,7 @@ bool j1Gui::PreUpdate()
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	p2List_item<Sprite*>* current_sprite = sprites.start;
+	p2List_item<InterfaceElement*>* current_sprite = elements.start;
 	while (current_sprite != NULL)
 	{
 		current_sprite->data->PostUpdate();
@@ -94,6 +94,14 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 	aux->idle_anim = anim;
 
 	sprites.add(aux);
+
+	return aux;
+}
+Label * j1Gui::AddLabel(iPoint pos, int psize, const char * font_path, Label::FontColor color)
+{
+	Label* aux = new Label(pos, font_path, psize, color);
+
+	elements.add(aux);
 
 	return aux;
 }
