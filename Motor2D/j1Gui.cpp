@@ -41,6 +41,13 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
+	//Labels
+	p2List_item<Label*>* current_label = labels.start;
+	while (current_label != NULL)
+	{
+		current_label->data->PreUpdate();
+		current_label = current_label->next;
+	}
 	return true;
 }
 
@@ -106,15 +113,21 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 
 	return aux;
 }
-Label * j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::FontColor color, const char* string, ...)
+Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::FontColor color, const char* format, ...)
 {
 	Label* aux = new Label(x, y, font_path, psize, color);
-	if (string != NULL)
-	{
-		static va_list  ap;
 
-		va_start(ap, string);
-		aux->setString(string, ap);
+	if (format != NULL)
+	{
+		va_list  ap;
+		char buffer[TMP_STRING_SIZE];
+
+		va_start(ap, format);
+		int res = vsprintf_s(buffer, TMP_STRING_SIZE, format, ap);
+
+		if (res > 0) {
+			aux->setString(buffer);
+		}
 		va_end(ap);
 	}
 	labels.add(aux);

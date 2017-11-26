@@ -52,6 +52,7 @@ private:
 	SDL_Color color;
 	p2SString string;
 	Alignment alignment;
+	bool text_changed = false;
 };
 
 #endif

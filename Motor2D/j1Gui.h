@@ -39,7 +39,7 @@ public:
 	// Gui creation functions
 	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
 	Sprite* AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim);
-	Label* AddLabel(int x, int y, int psize, const char* font_path, Label::FontColor color, const char* string, ...);
+	Label* AddLabel(int x, int y, int psize, const char* font_path, Label::FontColor color, const char* format, ...);
 	const SDL_Texture* GetAtlas() const;
 
 
