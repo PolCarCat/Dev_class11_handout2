@@ -3,8 +3,11 @@
 
 #include "j1Module.h"
 #include "InterfaceElement.h"
-#include "Sprite.h"
 #include "Label.h"
+
+class InterfaceElement;
+class Sprite;
+class Label;
 
 #define CURSOR_WIDTH 2
 

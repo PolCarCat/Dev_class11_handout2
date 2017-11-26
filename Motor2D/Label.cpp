@@ -30,6 +30,7 @@ bool Label::Start()
 
 bool Label::PreUpdate()
 {
+	bool ret = true;
 	if (font != nullptr && text_changed) {
 		SDL_Color fg, bg;
 		fg.r = 255;
@@ -41,11 +42,24 @@ bool Label::PreUpdate()
 		bg.g = 0;
 		bg.b = 0;
 		bg.a = 0;
+		
+		if (tex != nullptr)
+			SDL_DestroyTexture(tex);
 
-		tex = SDL_CreateTextureFromSurface(App->render->renderer, TTF_RenderText_Shaded(font, string.GetString(), fg, bg));
+		SDL_Surface* temp = TTF_RenderText_Blended(font, string.GetString(), fg);
+
+		if (temp != nullptr) {
+			tex = SDL_CreateTextureFromSurface(App->render->renderer, temp);
+			SDL_FreeSurface(temp);
+			temp = nullptr;
+		}
+		else {
+			LOG("Error creating texture from font surface: %s", SDL_GetError());
+			ret = false;
+		}
 		text_changed = false;
 	}
-	return true;
+	return ret;
 }
 
 bool Label::PostUpdate()
@@ -71,15 +85,20 @@ Label::Alignment Label::getAlignment() const
 	return alignment;
 }
 
-void Label::setString(const char* string, ...)
+void Label::setString(const char* format, ...)
 {
-	if (string != NULL)
+	if (format != NULL)
 	{
 		static va_list  ap;
+		static char tmp[TMP_STRING_SIZE];
 
-		va_start(ap, string);
-		this->string.create(string, ap);
+		va_start(ap, format);
+		int res = vsnprintf_s(tmp, TMP_STRING_SIZE, format, ap);
 		va_end(ap);
+
+		if (res > 0)
+			string.create(tmp);
+
 		text_changed = true;
 	}
 }
