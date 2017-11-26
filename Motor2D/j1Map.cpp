@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include <math.h>
+#include "j1Window.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -31,7 +32,7 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	p2List_item<MapLayer*>* item = data.layers.start;
+	/*p2List_item<MapLayer*>* item = data.layers.start;
 
 	for(; item != NULL; item = item->next)
 	{
@@ -56,7 +57,12 @@ void j1Map::Draw()
 				}
 			}
 		}
-	}
+	}*/
+	uint win_width = 0;
+	uint win_height = 0;
+	App->win->GetWindowSize(win_width, win_height);
+	SDL_Rect r = { 0,0,win_width,win_height };
+	App->render->Blit(background, 0, 0, false,NULL,&r);
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -190,7 +196,7 @@ bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
-
+	background = App->tex->Load("wow/login_background.png");
 	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
 	if(result == NULL)

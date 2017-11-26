@@ -132,7 +132,7 @@ private:
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
 	TileSet* GetTilesetFromTileId(int id) const;
-
+	SDL_Texture* background;
 public:
 
 	MapData data;
