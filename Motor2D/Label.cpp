@@ -7,7 +7,7 @@ Label::Label() : InterfaceElement()
 {
 }
 
-Label::Label(int x, int y, const char* font_path, int pSize, FontColor color) : InterfaceElement()
+Label::Label(int x, int y, const char* font_path, int pSize) : InterfaceElement()
 {
 	collider.x = x;
 	collider.y = y;
@@ -32,21 +32,10 @@ bool Label::PreUpdate()
 {
 	bool ret = true;
 	if (font != nullptr && text_changed) {
-		SDL_Color fg, bg;
-		fg.r = 255;
-		fg.g = 255;
-		fg.b = 255;
-		fg.a = 255;
-
-		bg.r = 0;
-		bg.g = 0;
-		bg.b = 0;
-		bg.a = 0;
-		
 		if (tex != nullptr)
 			SDL_DestroyTexture(tex);
 
-		SDL_Surface* temp = TTF_RenderText_Blended(font, string.GetString(), fg);
+		SDL_Surface* temp = TTF_RenderText_Blended(font, string.GetString(), color_fg);
 
 		if (temp != nullptr) {
 			tex = SDL_CreateTextureFromSurface(App->render->renderer, temp);
@@ -83,6 +72,23 @@ void Label::setAlignment(Label::Alignment alignment)
 Label::Alignment Label::getAlignment() const
 {
 	return alignment;
+}
+
+void Label::setColor(FontColor fg, FontColor bg)
+{
+	switch (fg) {
+	case COLOR_BLACK:
+		color_fg = { 0, 0, 0, 255 };
+		break;
+	case COLOR_WHITE:
+		color_fg = { 255, 255, 255, 255 };
+		break;
+	}
+	text_changed = true;
+}
+
+void Label::getColor(FontColor * fg, FontColor * bg)
+{
 }
 
 void Label::setString(const char* format, ...)
