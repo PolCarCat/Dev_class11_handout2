@@ -6,7 +6,7 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
-#include "InterfaceElement.h"
+#include "Sprite.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -115,8 +115,8 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 }
 Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::FontColor color, const char* format, ...)
 {
-	Label* aux = new Label(x, y, font_path, psize, color);
-
+	Label* aux = new Label(x, y, font_path, psize);
+	aux->setColor(color);
 	if (format != NULL)
 	{
 		va_list  ap;
@@ -124,11 +124,11 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::F
 
 		va_start(ap, format);
 		int res = vsprintf_s(buffer, TMP_STRING_SIZE, format, ap);
+		va_end(ap);
 
 		if (res > 0) {
 			aux->setString(buffer);
 		}
-		va_end(ap);
 	}
 	labels.add(aux);
 

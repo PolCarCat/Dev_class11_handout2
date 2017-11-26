@@ -18,6 +18,7 @@ public:
 	};
 
 	enum FontColor {
+		COLOR_TRANSPARENT = -1,
 		COLOR_WHITE,
 		COLOR_BLACK,
 		COLOR_GREY,
@@ -29,7 +30,7 @@ public:
 	};
 
 	Label();
-	Label(int x, int y, const char* font_path, int pSize, FontColor color);
+	Label(int x, int y, const char* font_path, int pSize);
 	~Label();
 
 	bool Start() override;
@@ -39,6 +40,8 @@ public:
 
 	void setAlignment(Alignment alignment);
 	Alignment getAlignment() const;
+	void setColor(FontColor fg, FontColor bg = COLOR_TRANSPARENT);
+	void getColor(FontColor* fg, FontColor* bg);
 	void setString(const char* string, ...);
 	void setString(p2SString string);
 	void getString(const char* string) const;
@@ -49,7 +52,7 @@ public:
 
 private:
 	Font* font = nullptr;
-	SDL_Color color;
+	SDL_Color color_fg, color_bg;
 	p2SString string;
 	Alignment alignment;
 	bool text_changed = false;
