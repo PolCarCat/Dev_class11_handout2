@@ -29,7 +29,7 @@ public:
 	};
 
 	Label();
-	Label(iPoint pos, const char* font_path, int pSize, FontColor color);
+	Label(int x, int y, const char* font_path, int pSize, FontColor color);
 	~Label();
 
 	bool Start() override;
@@ -39,8 +39,8 @@ public:
 
 	void setAlignment(Alignment alignment);
 	Alignment getAlignment() const;
-	void setText(const char* string, ...);
-	void setText(p2SString string);
+	void setString(const char* string, ...);
+	void setString(p2SString string);
 	void getString(const char* string) const;
 	void getString(p2SString& string) const;
 	void setFont(Font* font);

@@ -6,11 +6,13 @@ Label::Label() : InterfaceElement()
 {
 }
 
-Label::Label(iPoint pos, const char* font_path, int pSize, FontColor color) : InterfaceElement()
+Label::Label(int x, int y, const char* font_path, int pSize, FontColor color) : InterfaceElement()
 {
-	this->collider = { pos.x, pos.y, 0, 0 };
+	collider.x = x;
+	collider.y = y;
+	collider.w = 0;
+	collider.h = 0;
 	setFont(App->font->Load(font_path, pSize));
-	Enable(true);
 	//this->color = color;
 }
 
@@ -51,7 +53,7 @@ Label::Alignment Label::getAlignment() const
 	return alignment;
 }
 
-void Label::setText(const char* string, ...)
+void Label::setString(const char* string, ...)
 {
 	if (string != NULL)
 	{
@@ -63,7 +65,7 @@ void Label::setText(const char* string, ...)
 	}
 }
 
-void Label::setText(p2SString string)
+void Label::setString(p2SString string)
 {
 	this->string = string;
 }

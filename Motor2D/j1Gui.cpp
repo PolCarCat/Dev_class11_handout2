@@ -47,11 +47,20 @@ bool j1Gui::PreUpdate()
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	p2List_item<InterfaceElement*>* current_sprite = elements.start;
+	//Sprites
+	p2List_item<Sprite*>* current_sprite = sprites.start;
 	while (current_sprite != NULL)
 	{
 		current_sprite->data->PostUpdate();
 		current_sprite = current_sprite->next;
+	}
+
+	//Labels
+	p2List_item<Label*>* current_label = labels.start;
+	while (current_label != NULL)
+	{
+		current_label->data->PostUpdate();
+		current_label = current_label->next;
 	}
 
 	return true;
@@ -97,11 +106,18 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 
 	return aux;
 }
-Label * j1Gui::AddLabel(iPoint pos, int psize, const char * font_path, Label::FontColor color)
+Label * j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::FontColor color, const char* string, ...)
 {
-	Label* aux = new Label(pos, font_path, psize, color);
+	Label* aux = new Label(x, y, font_path, psize, color);
+	if (string != NULL)
+	{
+		static va_list  ap;
 
-	elements.add(aux);
+		va_start(ap, string);
+		aux->setString(string, ap);
+		va_end(ap);
+	}
+	labels.add(aux);
 
 	return aux;
 }
