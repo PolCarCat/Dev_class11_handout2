@@ -75,7 +75,7 @@ bool Label::RenderFont()
 		tex = nullptr;
 	}
 
-	tex = App->font->Print(string.GetString(), color_fg, font);
+	tex = App->font->Print(string.GetString(), color_fg, font, render_mode, color_bg);
 
 	if (tex == nullptr)
 		ret = false;

@@ -75,15 +75,18 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 bool j1Fonts::Unload(_TTF_Font * font)
 {
 	bool ret = true;
-	int index = fonts.find(font);
-	_TTF_Font* res = nullptr;
+	if (font != nullptr) {
+		int index = fonts.find(font);
+		_TTF_Font* res = nullptr;
 
-	if (index < 0)
-		ret = false;
-	else {
-		TTF_CloseFont(fonts[index]);
-		fonts[index] = nullptr;
+		if (index < 0)
+			ret = false;
+		else {
+			TTF_CloseFont(fonts[index]);
+			fonts[index] = nullptr;
+		}
 	}
+	else ret = false;
 	return ret;
 }
 
