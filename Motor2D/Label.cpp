@@ -76,12 +76,45 @@ Label::Alignment Label::getAlignment() const
 
 void Label::setColor(FontColor fg, FontColor bg)
 {
-	switch (fg) {
-	case COLOR_BLACK:
+	switch (fg)
+	{
+	case Label::COLOR_WHITE:
+		color_fg = { 255, 255, 255, 255 };
+		break;
+	case Label::COLOR_BLACK:
 		color_fg = { 0, 0, 0, 255 };
 		break;
-	case COLOR_WHITE:
-		color_fg = { 255, 255, 255, 255 };
+	case Label::COLOR_GREY:
+		color_fg = { 128, 128, 128, 255 };
+		break;
+	case Label::COLOR_RED:
+		color_fg = { 255, 0, 0, 255 };
+		break;
+	case Label::COLOR_BLUE:
+		color_fg = { 0, 0, 255, 255 };
+		break;
+	case Label::COLOR_YELLOW:
+		color_fg = { 0, 255, 255, 255 };
+		break;
+	case Label::COLOR_GREEN:
+		color_fg = { 0, 255, 0, 255 };
+		break;
+	case Label::COLOR_BROWN:
+		color_fg = { 102, 51, 0, 255 };
+		break;
+	case Label::COLOR_ORANGE:
+		color_fg = { 255, 128, 0, 255 };
+		break;
+	case Label::COLOR_CYAN:
+		color_fg = { 0, 255, 255, 255 };
+		break;
+	case Label::COLOR_PURPLE:
+		color_fg = { 128, 0, 255, 255 };
+		break;
+	case Label::COLOR_PINK:
+		color_fg = { 0, 255, 128, 255 };
+		break;
+	default:
 		break;
 	}
 	text_changed = true;
