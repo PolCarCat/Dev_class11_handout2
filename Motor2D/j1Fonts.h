@@ -31,7 +31,7 @@ public:
 	bool Unload(_TTF_Font* font);
 
 	// Create a surface from text
-	SDL_Texture* Print(const char* text, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, Label::RenderMode render_mode = Label::RenderMode::Blended, SDL_Color bg_color = { 0, 0, 0, 0 });
+	SDL_Texture* Print(const char* text, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, Label::RenderMode render_mode = Label::RenderMode::BLENDED, SDL_Color bg_color = { 0, 0, 0, 0 });
 
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 

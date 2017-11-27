@@ -42,10 +42,11 @@ bool j1Gui::Start()
 bool j1Gui::PreUpdate()
 {
 	//Labels
-	p2List_item<Label*>* current_label = labels.start;
+	p2List_item<InterfaceElement*>* current_label = elements.start;
 	while (current_label != NULL)
 	{
-		current_label->data->PreUpdate();
+		if (current_label->data->enabled)
+			current_label->data->PreUpdate();
 		current_label = current_label->next;
 	}
 	return true;
@@ -55,10 +56,11 @@ bool j1Gui::PreUpdate()
 bool j1Gui::PostUpdate()
 {
 	//Sprites
-	p2List_item<Sprite*>* current_sprite = sprites.start;
+	/*p2List_item<Sprite*>* current_sprite = sprites.start;
 	while (current_sprite != NULL)
 	{
-		current_sprite->data->PostUpdate();
+		if (current_sprite->data->enabled)
+			current_sprite->data->PostUpdate();
 		current_sprite = current_sprite->next;
 	}
 
@@ -66,7 +68,16 @@ bool j1Gui::PostUpdate()
 	p2List_item<Label*>* current_label = labels.start;
 	while (current_label != NULL)
 	{
-		current_label->data->PostUpdate();
+		if (current_label->data->enabled)
+			current_label->data->PostUpdate();
+		current_label = current_label->next;
+	}*/
+
+	p2List_item<InterfaceElement*>* current_label = elements.start;
+	while (current_label != NULL)
+	{
+		if (current_label->data->enabled)
+			current_label->data->PostUpdate();
 		current_label = current_label->next;
 	}
 
@@ -91,7 +102,7 @@ InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype ty
 {
 	InterfaceElement* aux = new InterfaceElement;
 	aux->type = type;
-	aux->collider = size;
+	aux->rect = size;
 	aux->tex = tex;
 	aux->enabled = enabled;
 
@@ -104,12 +115,12 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 {
 	Sprite* aux = new Sprite;
 	aux->type = type;
-	aux->collider = size;
+	aux->rect = size;
 	aux->tex = tex;
 	aux->enabled = enabled;
 	aux->idle_anim = anim;
 
-	sprites.add(aux);
+	elements.add(aux);
 
 	return aux;
 }
@@ -117,6 +128,7 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Colo
 {
 	Label* aux = new Label(x, y, font_path, psize, mode);
 	aux->setColor(color);
+
 	if (format != NULL)
 	{
 		va_list  ap;
@@ -130,7 +142,7 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Colo
 			aux->setString(buffer);
 		}
 	}
-	labels.add(aux);
+	elements.add(aux);
 
 	return aux;
 }

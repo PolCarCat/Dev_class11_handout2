@@ -93,13 +93,13 @@ SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font, L
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = nullptr;
 	switch (render_mode) {
-	case Label::RenderMode::Solid:
+	case Label::RenderMode::SOLID:
 		surface = TTF_RenderText_Solid((font) ? font : default, text, color);
 		break;
-	case Label::RenderMode::Blended:
+	case Label::RenderMode::BLENDED:
 		surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 		break;
-	case Label::RenderMode::Shaded:
+	case Label::RenderMode::SHADED:
 		surface = TTF_RenderText_Shaded((font) ? font : default, text, color, bg_color);
 		break;
 	default:

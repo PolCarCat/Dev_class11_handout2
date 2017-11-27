@@ -9,10 +9,10 @@ Label::Label() : InterfaceElement()
 
 Label::Label(int x, int y, const char* font_path, int pSize, RenderMode mode) : InterfaceElement()
 {
-	collider.x = x;
-	collider.y = y;
-	collider.w = 0;
-	collider.h = 0;
+	rect.x = x;
+	rect.y = y;
+	rect.w = 0;
+	rect.h = 0;
 	render_mode = mode;
 	psize = pSize;
 	path = font_path;
@@ -20,7 +20,6 @@ Label::Label(int x, int y, const char* font_path, int pSize, RenderMode mode) : 
 	if (aux != nullptr)
 		setFont(aux);
 	else LOG("Could not load font: %s", font_path);
-	//this->color = color;
 }
 
 Label::~Label()
@@ -58,7 +57,7 @@ bool Label::PreUpdate()
 bool Label::PostUpdate()
 {
 	if (font != nullptr) {
-		App->render->Blit(tex, collider.x, collider.y, false);
+		App->render->Blit(tex, rect.x, rect.y, false);
 	}
 	return true;
 }
