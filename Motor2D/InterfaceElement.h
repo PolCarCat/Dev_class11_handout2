@@ -28,7 +28,7 @@ public:
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
 
-	SDL_Rect collider;
+	SDL_Rect rect;
 	float scale;
 	SDL_Texture* tex;
 	interfacetype type;

@@ -18,9 +18,9 @@ public:
 	};
 
 	enum RenderMode {
-		Solid,
-		Blended,
-		Shaded
+		SOLID,
+		BLENDED,
+		SHADED
 	};
 
 	enum FontColor {
@@ -72,7 +72,7 @@ private:
 	p2SString string;
 	Alignment alignment;
 	bool text_changed = false, font_changed = false;
-	RenderMode render_mode = Solid;
+	RenderMode render_mode = SOLID;
 	const char* path = nullptr;
 	int psize = 0;
 };
