@@ -113,9 +113,9 @@ Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SD
 
 	return aux;
 }
-Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, Label::FontColor color, const char* format, ...)
+Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
 {
-	Label* aux = new Label(x, y, font_path, psize);
+	Label* aux = new Label(x, y, font_path, psize, mode);
 	aux->setColor(color);
 	if (format != NULL)
 	{

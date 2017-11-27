@@ -7,13 +7,19 @@ Label::Label() : InterfaceElement()
 {
 }
 
-Label::Label(int x, int y, const char* font_path, int pSize) : InterfaceElement()
+Label::Label(int x, int y, const char* font_path, int pSize, RenderMode mode) : InterfaceElement()
 {
 	collider.x = x;
 	collider.y = y;
 	collider.w = 0;
 	collider.h = 0;
-	setFont(App->font->Load(font_path, pSize));
+	render_mode = mode;
+	psize = pSize;
+	path = font_path;
+	Font* aux = App->font->Load(font_path, pSize);
+	if (aux != nullptr)
+		setFont(aux);
+	else LOG("Could not load font: %s", font_path);
 	//this->color = color;
 }
 
@@ -32,20 +38,18 @@ bool Label::PreUpdate()
 {
 	bool ret = true;
 	if (font != nullptr && text_changed) {
-		if (tex != nullptr)
-			SDL_DestroyTexture(tex);
-
-		SDL_Surface* temp = TTF_RenderText_Blended(font, string.GetString(), color_fg);
-
-		if (temp != nullptr) {
-			tex = SDL_CreateTextureFromSurface(App->render->renderer, temp);
-			SDL_FreeSurface(temp);
-			temp = nullptr;
+		if (font_changed) {
+			App->font->Unload(font);
+			font = nullptr;
+			font = App->font->Load(path, psize);
+			if (font == nullptr) {
+				ret = false;
+				LOG("Error changing font: %s", TTF_GetError());
+			}
+			font_changed = false;
 		}
-		else {
-			LOG("Error creating texture from font surface: %s", SDL_GetError());
-			ret = false;
-		}
+			
+		ret = RenderFont();
 		text_changed = false;
 	}
 	return ret;
@@ -64,6 +68,22 @@ bool Label::CleanUp()
 	return true;
 }
 
+bool Label::RenderFont()
+{
+	bool ret = true;
+	if (tex != nullptr) {
+		SDL_DestroyTexture(tex);
+		tex = nullptr;
+	}
+
+	tex = App->font->Print(string.GetString(), color_fg, font);
+
+	if (tex == nullptr)
+		ret = false;
+
+	return ret;
+}
+
 void Label::setAlignment(Label::Alignment alignment)
 {
 	this->alignment = alignment;
@@ -74,9 +94,9 @@ Label::Alignment Label::getAlignment() const
 	return alignment;
 }
 
-void Label::setColor(FontColor fg, FontColor bg)
+void Label::setColor(SDL_Color fg, SDL_Color bg)
 {
-	switch (fg)
+	/*switch (fg)
 	{
 	case Label::COLOR_WHITE:
 		color_fg = { 255, 255, 255, 255 };
@@ -116,12 +136,16 @@ void Label::setColor(FontColor fg, FontColor bg)
 		break;
 	default:
 		break;
-	}
+	}*/
+	color_fg = fg;
+	color_bg = bg;
 	text_changed = true;
 }
 
-void Label::getColor(FontColor * fg, FontColor * bg)
+void Label::getColor(SDL_Color * fg, SDL_Color * bg)
 {
+	fg = &color_fg;
+	bg = &color_bg;
 }
 
 void Label::setString(const char* format, ...)
@@ -160,17 +184,43 @@ void Label::getString(p2SString& string) const
 
 void Label::setFont(Font* font)
 {
+	App->font->Unload(this->font);
 	this->font = font;
 	text_changed = true;
 }
 
 void Label::setFont(const char* font_path, int pSize)
 {
-	font = App->font->Load(font_path, pSize);
+	path = font_path;
+	if (pSize > -1)
+		psize = pSize;
 	text_changed = true;
+	font_changed = true;
 }
 
 Font* Label::getFont()
 {
 	return font;
+}
+
+void Label::setSize(int pSize)
+{
+	psize = pSize;
+	text_changed = true;
+	font_changed = true;
+}
+
+int Label::getSize()
+{
+	return psize;
+}
+
+void Label::setRenderMode(RenderMode mode)
+{
+	render_mode = mode;
+}
+
+Label::RenderMode Label::getRenderMode()
+{
+	return render_mode;
 }

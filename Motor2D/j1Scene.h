@@ -38,6 +38,7 @@ private:
 	SDL_Texture* debug_tex;
 	Sprite* banner;
 	Label* text;
+	int i = 0;
 };
 
 #endif // __j1SCENE_H__

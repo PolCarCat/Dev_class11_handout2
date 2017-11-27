@@ -72,11 +72,40 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 	return font;
 }
 
+bool j1Fonts::Unload(_TTF_Font * font)
+{
+	bool ret = true;
+	int index = fonts.find(font);
+	_TTF_Font* res = nullptr;
+
+	if (index < 0)
+		ret = false;
+	else {
+		TTF_CloseFont(fonts[index]);
+		fonts[index] = nullptr;
+	}
+	return ret;
+}
+
 // Print text using font
-SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font)
+SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font, Label::RenderMode render_mode, SDL_Color bg_color)
 {
 	SDL_Texture* ret = NULL;
-	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
+	SDL_Surface* surface = nullptr;
+	switch (render_mode) {
+	case Label::RenderMode::Solid:
+		surface = TTF_RenderText_Solid((font) ? font : default, text, color);
+		break;
+	case Label::RenderMode::Blended:
+		surface = TTF_RenderText_Blended((font) ? font : default, text, color);
+		break;
+	case Label::RenderMode::Shaded:
+		surface = TTF_RenderText_Shaded((font) ? font : default, text, color, bg_color);
+		break;
+	default:
+		surface = TTF_RenderText_Solid((font) ? font : default, text, color);
+		break;
+	}
 
 	if(surface == NULL)
 	{
