@@ -52,6 +52,8 @@ private:
 	p2List<Label*> labels;
 	SDL_Texture* atlas;
 	p2SString atlas_file_name;
+	SDL_Texture* left_logo;
+	SDL_Texture* right_logo;
 };
 
 #endif // __j1GUI_H__

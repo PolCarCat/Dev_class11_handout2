@@ -32,8 +32,10 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
+	right_logo = App->tex->Load("wow/Glues-Logo-Left.png");
 	SDL_Rect rect{ 485, 829, 328, 103 };
-	AddSprite(InterfaceElement::SPRITE, { 10,10,10,10 }, atlas, true, rect);
+	//AddSprite(InterfaceElement::SPRITE, { 10,10,10,10 }, atlas, true, rect);
+	AddSprite(InterfaceElement::SPRITE, { 0,0,0,0 }, left_logo, true, { 0,0,256,256 });
 
 	return true;
 }
