@@ -27,7 +27,7 @@ public:
 	virtual bool PreUpdate();
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
-
+	
 	SDL_Rect rect;
 	float scale;
 	SDL_Texture* tex;

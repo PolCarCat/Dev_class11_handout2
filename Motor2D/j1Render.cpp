@@ -120,7 +120,7 @@ void j1Render::ResetViewPort()
 iPoint j1Render::ScreenToWorld(int x, int y) const
 {
 	iPoint ret;
-	int scale = App->win->GetScale();
+	float scale = App->win->GetScale();
 
 	ret.x = (x - camera.x / scale);
 	ret.y = (y - camera.y / scale);
@@ -132,7 +132,7 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SDL_Rect* section,SDL_Rect* output_rect, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
-	uint scale = App->win->GetScale();
+	float scale = App->win->GetScale();
 
 	SDL_Rect rect;
 	if (output_rect == NULL)

@@ -32,8 +32,12 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
+	left_logo = App->tex->Load("wow/Glues-Logo-Left.png");
+	right_logo = App->tex->Load("wow/Glues-Logo-Right.png");
 	SDL_Rect rect{ 485, 829, 328, 103 };
-	AddSprite(InterfaceElement::SPRITE, { 10,10,10,10 }, atlas, true, rect);
+	//AddSprite(InterfaceElement::SPRITE, { 10,10,10,10 }, atlas, true, rect);
+	AddSprite(InterfaceElement::SPRITE,0,0, left_logo, true, { 0,0,256,256 });
+	AddSprite(InterfaceElement::SPRITE, 256, 0, right_logo, true, { 0,0,256,256 });
 
 	return true;
 }
@@ -111,12 +115,15 @@ InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype ty
 	return aux;
 }
 
-Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled, SDL_Rect anim)
+Sprite* j1Gui::AddSprite(InterfaceElement::interfacetype type, uint x, uint y, SDL_Texture* tex, bool enabled, SDL_Rect anim)
 {
 	Sprite* aux = new Sprite;
 	aux->type = type;
-	aux->rect = size;
 	aux->tex = tex;
+	aux->rect.x = x;
+	aux->rect.y = y;
+	aux->rect.w = 0;
+	aux->rect.h = 0;
 	aux->enabled = enabled;
 	aux->idle_anim = anim;
 

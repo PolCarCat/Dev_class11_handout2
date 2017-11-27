@@ -60,9 +60,8 @@ void j1Map::Draw()
 	}*/
 	uint win_width = 0;
 	uint win_height = 0;
-	App->win->GetWindowSize(win_width, win_height);
-	SDL_Rect r = { 0,0,win_width,win_height };
-	App->render->Blit(background, 0, 0, false,NULL,&r);
+
+	App->render->Blit(background, 0, 0);
 }
 
 int Properties::Get(const char* value, int default_value) const
