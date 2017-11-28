@@ -53,7 +53,7 @@ public:
 	void setAlignment(Alignment alignment);
 	Alignment getAlignment() const;
 	void setColor(SDL_Color fg, SDL_Color bg = { 0,0,0,0 });
-	void getColor(SDL_Color* fg, SDL_Color* bg);
+	void getColor(SDL_Color* fg, SDL_Color* bg = nullptr);
 	void setString(const char* string, ...);
 	void setString(p2SString string);
 	void getString(const char* string) const;
@@ -62,7 +62,7 @@ public:
 	void setFont(const char* font_path, int pSize = -1); // Recommended since it uses the fonts module and doesn't require external memory management
 	Font* getFont();
 	void setSize(int pSize);
-	int getSize();
+	int getSize() const;
 	void setRenderMode(RenderMode mode);
 	RenderMode getRenderMode();
 

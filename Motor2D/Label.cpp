@@ -143,8 +143,10 @@ void Label::setColor(SDL_Color fg, SDL_Color bg)
 
 void Label::getColor(SDL_Color * fg, SDL_Color * bg)
 {
-	fg = &color_fg;
-	bg = &color_bg;
+	if (fg != nullptr)
+		fg = &color_fg;
+	if (bg != nullptr)
+		bg = &color_bg;
 }
 
 void Label::setString(const char* format, ...)
@@ -209,7 +211,7 @@ void Label::setSize(int pSize)
 	font_changed = true;
 }
 
-int Label::getSize()
+int Label::getSize() const
 {
 	return psize;
 }
