@@ -8,6 +8,7 @@
 class InterfaceElement;
 class Sprite;
 class Label;
+class Button;
 
 #define CURSOR_WIDTH 2
 
@@ -43,14 +44,18 @@ public:
 	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
 	Sprite* AddSprite(InterfaceElement::interfacetype type, uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
 	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
+	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, const char* font_path, int pSize, Label::RenderMode mode, SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim);
 	const SDL_Texture* GetAtlas() const;
-
+	void CheckButtons();
+	bool pressing;
 
 private:
 	p2List<InterfaceElement*> elements;
 	p2List<Sprite*> sprites;
 	p2List<Label*> labels;
+	p2List<Button*> buttons;
 	SDL_Texture* atlas;
+	SDL_Texture* nasty_buttons;
 	p2SString atlas_file_name;
 	SDL_Texture* left_logo;
 	SDL_Texture* right_logo;

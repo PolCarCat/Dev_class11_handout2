@@ -65,6 +65,7 @@ bool j1Scene::PreUpdate()
 
 	if(App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
+		/*
 		if(origin_selected == true)
 		{
 			App->pathfinding->CreatePath(origin, p);
@@ -74,7 +75,25 @@ bool j1Scene::PreUpdate()
 		{
 			origin = p;
 			origin_selected = true;
+		}*/
+
+		App->gui->pressing = true;
+	}
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		/*
+		if(origin_selected == true)
+		{
+		App->pathfinding->CreatePath(origin, p);
+		origin_selected = false;
 		}
+		else
+		{
+		origin = p;
+		origin_selected = true;
+		}*/
+
+		App->gui->pressing = false;
 	}
 
 	return true;
