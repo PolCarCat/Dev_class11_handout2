@@ -13,7 +13,7 @@ class Sprite :
 	public InterfaceElement
 {
 public:
-	Sprite(InterfaceElement::interfacetype _type, uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim);
+	Sprite(InterfaceElement::interfacetype _type = InterfaceElement::SPRITE, uint _x = 0, uint _y = 0, SDL_Texture* _tex = nullptr, bool _enabled = false, SDL_Rect* _anim = nullptr);
 	~Sprite();
 	bool PostUpdate() override;
 

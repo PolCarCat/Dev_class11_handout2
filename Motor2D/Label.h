@@ -66,7 +66,7 @@ public:
 	void setRenderMode(RenderMode mode);
 	RenderMode getRenderMode();
 
-private:
+protected:
 	Font* font = nullptr;
 	SDL_Color color_fg, color_bg;
 	p2SString string;
