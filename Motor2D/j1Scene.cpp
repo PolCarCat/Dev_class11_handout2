@@ -47,6 +47,23 @@ bool j1Scene::Start()
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
 	text = App->gui->AddLabel(250, 250, 50, "fonts/open_sans/OpenSans-Bold.ttf", {128, 0, 255, 128}, Label::BLENDED, "Hello %s", "World");
 
+	atlas = App->tex->Load(App->gui->atlas_file_name.GetString());
+	left_logo = App->tex->Load("wow/Glues-Logo-Left.png");
+	right_logo = App->tex->Load("wow/Glues-Logo-Right.png");
+	ESBR_logo = App->tex->Load("wow/Glues-ESRBRating.png");
+	nasty_buttons = App->tex->Load("textures/buttons.png");
+	SDL_Rect rect{ 485, 829, 328, 103 };
+	//AddSprite({ 10,10,10,10 }, atlas, true, rect);
+	App->gui->AddSprite(0, 0, left_logo);
+	App->gui->AddSprite(256, 0, right_logo);
+	App->gui->AddSprite(20, 683, ESBR_logo);
+
+	SDL_Rect idle{ 0, 0, 1007, 340 };
+	SDL_Rect hovered{ 0,354,1007,340 };
+	SDL_Rect pressed{ 0,720,1007,340 };
+
+	App->gui->AddButton(100, 100, nasty_buttons, true, &idle, nullptr, 1, Label::RenderMode::SOLID, &hovered, &pressed);
+
 	return true;
 }
 

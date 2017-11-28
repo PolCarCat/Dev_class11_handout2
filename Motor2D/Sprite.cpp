@@ -1,9 +1,9 @@
 #include "Sprite.h"
 #include "j1Render.h"
 
-Sprite::Sprite(InterfaceElement::interfacetype _type, uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim) :InterfaceElement()
+Sprite::Sprite(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim) : InterfaceElement()
 {
-	type = _type;
+	type = SPRITE;
 	tex = _tex;
 	rect.x = _x;
 	rect.y = _y;

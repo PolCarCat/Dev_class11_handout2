@@ -39,6 +39,12 @@ private:
 	Sprite* banner;
 	Label* text;
 	int i = 0;
+
+	SDL_Texture* atlas;
+	SDL_Texture* nasty_buttons;
+	SDL_Texture* left_logo;
+	SDL_Texture* right_logo;
+	SDL_Texture* ESBR_logo;
 };
 
 #endif // __j1SCENE_H__
