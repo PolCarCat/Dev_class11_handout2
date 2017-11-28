@@ -46,7 +46,7 @@ bool j1Gui::Start()
 
 	SDL_Rect idle{ 0, 0, 1007, 340 };
 	SDL_Rect hovered{ 0,354,1007,340 };
-	SDL_Rect pressed{ 0,718,1007,340 };
+	SDL_Rect pressed{ 0,720,1007,340 };
 
 	AddButton(100, 100, nasty_buttons, true, &idle, nullptr, 1, Label::RenderMode::SOLID, &hovered, &pressed);
 
