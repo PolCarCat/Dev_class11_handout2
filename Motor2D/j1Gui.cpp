@@ -92,7 +92,7 @@ bool j1Gui::CleanUp()
 // const getter for atlas
 const SDL_Texture* j1Gui::GetAtlas() const
 {
-	return atlas;
+	return nullptr;
 }
 
 InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled)
