@@ -44,7 +44,7 @@ public:
 	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
 	Sprite* AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
 	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
-	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, const char* font_path, int pSize, Label::RenderMode mode, SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim);
+	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
 	const SDL_Texture* GetAtlas() const;
 	bool pressing;
 	p2SString atlas_file_name;

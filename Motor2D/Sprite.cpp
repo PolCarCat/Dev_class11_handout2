@@ -17,13 +17,15 @@ Sprite::Sprite(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 	}
 	else
 	{
-		SDL_Rect rect;
-		rect.x = 0;
-		rect.y = 0;
-		SDL_QueryTexture(tex, NULL, NULL, &rect.w, &rect.h);
-		idle_anim = rect;
+		idle_anim.x = 0;
+		idle_anim.y = 0;
+		SDL_QueryTexture(tex, NULL, NULL, &idle_anim.w, &idle_anim.h);
 	}
 
+	rect.w = idle_anim.w;
+	rect.h = idle_anim.h;
+
+	current_anim = &idle_anim;
 }
 
 
@@ -34,6 +36,6 @@ Sprite::~Sprite()
 bool Sprite::PostUpdate()
 {
 	current_anim = &idle_anim;
-	App->render->Blit(tex, rect.x, rect.y,false, current_anim);
+	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	return true;
 }

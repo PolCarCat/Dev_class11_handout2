@@ -62,7 +62,7 @@ bool j1Scene::Start()
 	SDL_Rect hovered{ 0,354,1007,340 };
 	SDL_Rect pressed{ 0,720,1007,340 };
 
-	App->gui->AddButton(100, 100, nasty_buttons, true, &idle, nullptr, 1, Label::RenderMode::SOLID, &hovered, &pressed);
+	App->gui->AddButton(100, 100, nasty_buttons, true, &idle, &hovered, &pressed, "fonts/open_sans/OpenSans-Bold.ttf", 50, Label::RenderMode::SOLID);
 
 	return true;
 }

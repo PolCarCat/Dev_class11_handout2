@@ -20,14 +20,18 @@ public:
 	
 	void OnHover();
 	void OnClick();
-	bool PostUpdate();
+	bool PostUpdate() override;
 	void setLabel(Label* label);
 
 private:
 	Label* label = nullptr;
 	SDL_Rect pressed_anim;
 	SDL_Rect hovered_anim;
-	SDL_Rect disalbed_anim;
+	SDL_Rect disabled_anim;
+	p2SString idle_string;
+	p2SString pressed_string;
+	p2SString hovered_string;
+	p2SString disabled_string;
 };
 
 #endif // !__BUTTON_H__
