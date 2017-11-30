@@ -193,7 +193,7 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void doSomething()
+void doSomething(const char* message)
 {
-	LOG("succes");
+	LOG("%s", message);
 }

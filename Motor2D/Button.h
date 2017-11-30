@@ -4,11 +4,14 @@
 #include "Label.h"
 #include "j1Gui.h"
 
+typedef void(*Callback_v)(void);
+typedef void(*Callback_c)(const char*);
+
 class Button :
 	public Sprite
 {
 public:
-	Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (*Click)(), SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr);
+	Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (*Click)(const char*), SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr);
 	~Button();
 	
 	enum STATE {
@@ -19,7 +22,7 @@ public:
 	} state;
 	
 	void OnHover();
-	void* OnClick;
+	Callback_c OnClick = nullptr;
 	bool PostUpdate() override;
 	void setLabel(Label* label);
 

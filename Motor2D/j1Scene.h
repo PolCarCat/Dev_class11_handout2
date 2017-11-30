@@ -48,5 +48,5 @@ private:
 
 };
 
-void doSomething();
+void doSomething(const char* message);
 #endif // __j1SCENE_H__
