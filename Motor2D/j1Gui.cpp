@@ -39,12 +39,12 @@ bool j1Gui::Start()
 bool j1Gui::PreUpdate()
 {
 	//Labels
-	p2List_item<InterfaceElement*>* current_label = elements.start;
-	while (current_label != NULL)
+	p2List_item<InterfaceElement*>* current_element = elements.start;
+	while (current_element != NULL)
 	{
-		if (current_label->data->enabled)
-			current_label->data->PreUpdate();
-		current_label = current_label->next;
+		if (current_element->data->enabled)
+			current_element->data->PreUpdate();
+		current_element = current_element->next;
 	}
 	return true;
 }
@@ -70,12 +70,12 @@ bool j1Gui::PostUpdate()
 		current_label = current_label->next;
 	}*/
 
-	p2List_item<InterfaceElement*>* current_label = elements.start;
-	while (current_label != NULL)
+	p2List_item<InterfaceElement*>* current_element = elements.start;
+	while (current_element != NULL)
 	{
-		if (current_label->data->enabled)
-			current_label->data->PostUpdate();
-		current_label = current_label->next;
+		if (current_element->data->enabled)
+			current_element->data->PostUpdate();
+		current_element = current_element->next;
 	}
 
 	return true;
@@ -143,6 +143,8 @@ Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL
 	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
 {
 	Button* aux = new Button(_x, _y, _tex, _enabled, _anim, onclick, _hovered_anim, _pressed_anim);
+	Label* label = new Label(_x, _y, font_path, pSize, mode);
+	aux->setLabel(label);
 	elements.add(aux);
 	return aux;
 }

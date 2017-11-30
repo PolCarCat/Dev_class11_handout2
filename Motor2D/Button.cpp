@@ -31,9 +31,12 @@ Button::~Button()
 
 void Button::OnHover()
 {
-	//LOG("Hover");
 }
 
+bool Button::PreUpdate()
+{
+	label->PreUpdate();
+}
 
 bool Button::PostUpdate()
 {
@@ -48,11 +51,13 @@ bool Button::PostUpdate()
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
-			OnClick("Clicked!");
+			label->setString("Left mouse button click");
+			OnClick("Left mouse button click");
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_IDLE)
 		{
 			current_anim = &hovered_anim;
+			label->setString("Hovered");
 			OnHover();
 		}
 		
@@ -63,6 +68,8 @@ bool Button::PostUpdate()
 	}
 
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+
+	label->PostUpdate();
 	return true;
 }
 
