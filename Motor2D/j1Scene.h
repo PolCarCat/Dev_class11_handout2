@@ -45,6 +45,8 @@ private:
 	SDL_Texture* left_logo;
 	SDL_Texture* right_logo;
 	SDL_Texture* ESBR_logo;
+
 };
 
+void doSomething();
 #endif // __j1SCENE_H__

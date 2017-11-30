@@ -8,7 +8,7 @@ class Button :
 	public Sprite
 {
 public:
-	Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr);
+	Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (*Click)(), SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr);
 	~Button();
 	
 	enum STATE {
@@ -19,7 +19,7 @@ public:
 	} state;
 	
 	void OnHover();
-	void OnClick();
+	void* OnClick;
 	bool PostUpdate() override;
 	void setLabel(Label* label);
 
@@ -32,6 +32,7 @@ private:
 	p2SString pressed_string;
 	p2SString hovered_string;
 	p2SString disabled_string;
+
 };
 
 #endif // !__BUTTON_H__

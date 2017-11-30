@@ -139,13 +139,14 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Colo
 	return aux;
 }
 
-Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim,
+Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (onclick)(),
 	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
 {
-	Button* aux = new Button( _x, _y, _tex, _enabled, _anim, _hovered_anim, _pressed_anim);
-
+	Button* aux = new Button( _x, _y, _tex, _enabled, _anim, *onclick, _hovered_anim, _pressed_anim);
 	elements.add(aux);
 	return aux;
 
 }
+
+
 // class Gui ---------------------------------------------------

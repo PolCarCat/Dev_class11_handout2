@@ -45,7 +45,7 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-	text = App->gui->AddLabel(250, 250, 50, "fonts/open_sans/OpenSans-Bold.ttf", {128, 0, 255, 128}, Label::BLENDED, "Hello %s", "World");
+	text = App->gui->AddLabel(250, 550, 50, "fonts/open_sans/OpenSans-Bold.ttf", {128, 0, 255, 128}, Label::BLENDED, "Hello %s", "World");
 
 	atlas = App->tex->Load(App->gui->atlas_file_name.GetString());
 	left_logo = App->tex->Load("wow/Glues-Logo-Left.png");
@@ -62,7 +62,7 @@ bool j1Scene::Start()
 	SDL_Rect hovered{ 0,354,1007,340 };
 	SDL_Rect pressed{ 0,720,1007,340 };
 
-	App->gui->AddButton(100, 100, nasty_buttons, true, &idle, &hovered, &pressed, "fonts/open_sans/OpenSans-Bold.ttf", 50, Label::RenderMode::SOLID);
+	App->gui->AddButton(100, 100, nasty_buttons, true,&idle, &doSomething, &hovered, &pressed, "fonts/open_sans/OpenSans-Bold.ttf", 50, Label::RenderMode::SOLID);
 
 	return true;
 }
@@ -191,4 +191,9 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void doSomething()
+{
+	LOG("succes");
 }
