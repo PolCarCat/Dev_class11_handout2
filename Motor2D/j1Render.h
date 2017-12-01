@@ -46,7 +46,7 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
-	void ShakeIt(float time);
+	void ShakeIt(float time, int intensity = 5);
 
 public:
 
@@ -55,7 +55,7 @@ public:
 	SDL_Rect		viewport;
 	SDL_Color		background;
 	float shaky_cam_time_remaining = 0.0f;
-	int shaky_cam_dx = 0, shaky_cam_dy = 0;
+	int shaky_cam_dx = 0, shaky_cam_dy = 0, shaky_cam_intensity = 0;
 };
 
 #endif // __j1RENDER_H__

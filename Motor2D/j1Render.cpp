@@ -65,22 +65,21 @@ bool j1Render::Start()
 bool j1Render::PreUpdate()
 {
 	SDL_RenderClear(renderer);
-
-	if (shaky_cam_time_remaining > 0.0f) {
-		shaky_cam_dx = (rand() % 10) - 5;
-		shaky_cam_dy = (rand() % 10) - 5;
-	}
-	else {
-		shaky_cam_time_remaining = 0.0f;
-		shaky_cam_dx = 0;
-		shaky_cam_dy = 0;
-	}
 	return true;
 }
 
 bool j1Render::Update(float dt)
 {
 	shaky_cam_time_remaining -= dt;
+	if (shaky_cam_time_remaining > 0.0f && shaky_cam_intensity != 0) {
+		shaky_cam_dx = (rand() % (shaky_cam_intensity * 2)) - shaky_cam_intensity;
+		shaky_cam_dy = (rand() % (shaky_cam_intensity * 2)) - shaky_cam_intensity;
+	}
+	else {
+		shaky_cam_time_remaining = 0.0f;
+		shaky_cam_dx = 0;
+		shaky_cam_dy = 0;
+	}
 	return true;
 }
 
@@ -124,9 +123,10 @@ void j1Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
-void j1Render::ShakeIt(float time)
+void j1Render::ShakeIt(float time, int intensity)
 {
-	shaky_cam_time_remaining += time;
+	shaky_cam_time_remaining = time;
+	shaky_cam_intensity = intensity;
 }
 
 void j1Render::SetViewPort(const SDL_Rect& rect)
