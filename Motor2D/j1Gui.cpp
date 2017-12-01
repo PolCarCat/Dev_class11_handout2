@@ -8,6 +8,7 @@
 #include "j1Gui.h"
 #include "Sprite.h"
 #include "Button.h"
+#include "Window.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -161,5 +162,11 @@ Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL
 	return aux;
 }
 
+Window* j1Gui::AddWindow(uint x, uint y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+{
+	Window* aux = new Window(x, y, tex, enabled, anim);
 
+	elements.add(aux);
+	return aux;
+}
 // class Gui ---------------------------------------------------

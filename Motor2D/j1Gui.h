@@ -9,6 +9,7 @@ class InterfaceElement;
 class Sprite;
 class Label;
 class Button;
+class Window;
 
 #define CURSOR_WIDTH 2
 
@@ -46,6 +47,7 @@ public:
 	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
 	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr,
 		SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
+	Window* AddWindow(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
 	const SDL_Texture* GetAtlas() const;
 	bool pressing;
 	p2SString atlas_file_name;
@@ -55,6 +57,7 @@ private:
 	p2List<Sprite*> sprites;
 	p2List<Label*> labels;
 	p2List<Button*> buttons;
+	p2List<Window*> windows;
 
 };
 
