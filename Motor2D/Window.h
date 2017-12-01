@@ -12,6 +12,7 @@ public:
 	~Window();
 	void DragWindow();
 	bool PostUpdate();
-
+	SDL_Rect Mouse;
+	SDL_Rect prev_mouse;
 };
 

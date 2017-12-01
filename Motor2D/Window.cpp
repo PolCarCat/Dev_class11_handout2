@@ -14,7 +14,7 @@ Window::~Window()
 bool Window::PostUpdate()
 {
 
-	SDL_Rect Mouse;
+	prev_mouse = Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
 	Mouse.h = CURSOR_WIDTH;
@@ -22,7 +22,7 @@ bool Window::PostUpdate()
 	SDL_Rect result;
 	if (SDL_IntersectRect(&rect, &Mouse, &result) == SDL_TRUE)
 	{
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y)
 		{
 			DragWindow();
 		}
