@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include <random>
 
 #define VSYNC true
 
@@ -64,6 +65,22 @@ bool j1Render::Start()
 bool j1Render::PreUpdate()
 {
 	SDL_RenderClear(renderer);
+
+	if (shaky_cam_time_remaining > 0.0f) {
+		shaky_cam_dx = (rand() % 10) - 5;
+		shaky_cam_dy = (rand() % 10) - 5;
+	}
+	else {
+		shaky_cam_time_remaining = 0.0f;
+		shaky_cam_dx = 0;
+		shaky_cam_dy = 0;
+	}
+	return true;
+}
+
+bool j1Render::Update(float dt)
+{
+	shaky_cam_time_remaining -= dt;
 	return true;
 }
 
@@ -107,6 +124,11 @@ void j1Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
+void j1Render::ShakeIt(float time)
+{
+	shaky_cam_time_remaining += time;
+}
+
 void j1Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
@@ -129,7 +151,7 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SDL_Rect* section,SDL_Rect* output_rect, float speed, double angle, int pivot_x, int pivot_y) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SDL_Rect* section, SDL_Rect* output_rect, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	float scale = App->win->GetScale();
@@ -163,6 +185,9 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SD
 	{
 		rect = *output_rect;
 	}
+
+	rect.x += shaky_cam_dx;
+	rect.y += shaky_cam_dy;
 
 	rect.w *= scale;
 	rect.h *= scale;

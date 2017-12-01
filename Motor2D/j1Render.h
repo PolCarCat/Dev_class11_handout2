@@ -22,6 +22,7 @@ public:
 
 	// Called each loop iteration
 	bool PreUpdate();
+	bool Update(float dt) override;
 	bool PostUpdate();
 
 	// Called before quitting
@@ -45,12 +46,16 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	void ShakeIt(float time);
+
 public:
 
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+	float shaky_cam_time_remaining = 0.0f;
+	int shaky_cam_dx = 0, shaky_cam_dy = 0;
 };
 
 #endif // __j1RENDER_H__

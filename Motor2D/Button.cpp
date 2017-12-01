@@ -54,17 +54,23 @@ bool Button::PostUpdate()
 			label->setString("Left mouse button click");
 			OnClick("Left mouse button click");
 		}
-		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_IDLE)
+		else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN)
+		{
+			current_anim = &pressed_anim;
+			label->setString("Right mouse button click");
+			OnClick("Right mouse button click");
+		}
+		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_IDLE && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_IDLE)
 		{
 			current_anim = &hovered_anim;
 			label->setString("Hovered");
 			OnHover();
 		}
-		
 	}
 	else
 	{
 		current_anim = &idle_anim;
+		label->setString("Idle");
 	}
 
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);

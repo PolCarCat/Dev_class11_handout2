@@ -196,4 +196,5 @@ bool j1Scene::CleanUp()
 void doSomething(const char* message)
 {
 	LOG("%s", message);
+	App->render->ShakeIt(0.5f);
 }
