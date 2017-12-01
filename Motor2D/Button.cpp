@@ -4,7 +4,7 @@
 #include "j1Input.h"
 
 
-Button::Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (*Click)(const char*), SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim)
+Button::Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim)
 	: Sprite(_x, _y, _tex, _enabled, _anim)
 {
 	type = BUTTON;
@@ -21,7 +21,7 @@ Button::Button(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 
 	current_anim = &idle_anim;
 
-	OnClick = Click;
+	OnClick = callback;
 }
 
 
@@ -35,7 +35,7 @@ void Button::OnHover()
 
 bool Button::PreUpdate()
 {
-	label->PreUpdate();
+	return label->PreUpdate();
 }
 
 bool Button::PostUpdate()

@@ -57,7 +57,23 @@ bool Label::PreUpdate()
 bool Label::PostUpdate()
 {
 	if (font != nullptr) {
-		App->render->Blit(tex, rect.x, rect.y, false);
+		int d_x = 0, d_y = 0;
+		switch (alignment)
+		{
+		case Label::CENTERED:
+			d_x = -rect.w / 2;
+			d_y = -rect.h / 2;
+			break;
+		case Label::LEFT:
+			break;
+		case Label::RIGHT:
+			d_x = -rect.w;
+			d_y = -rect.h;
+			break;
+		default:
+			break;
+		}
+		App->render->Blit(tex, rect.x + d_x, rect.y + d_y, false);
 	}
 	return true;
 }
@@ -79,6 +95,9 @@ bool Label::RenderFont()
 
 	if (tex == nullptr)
 		ret = false;
+	else {
+		SDL_QueryTexture(tex, nullptr, nullptr, &rect.w, &rect.h);
+	}
 
 	return ret;
 }

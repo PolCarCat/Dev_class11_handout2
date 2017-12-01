@@ -23,17 +23,28 @@ public:
 
 
 	bool Enable(bool enable);
+	bool isEnabled();
 	virtual bool Start();
 	virtual bool PreUpdate();
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
+
+	virtual SDL_Rect getRect() const;
+	virtual int getPositionX() const;
+	virtual int getPositionY() const;
+	virtual void setPosition(int x, int y);
+	virtual void setPositionX(int x);
+	virtual void setPositionY(int y);
+	virtual void setScale(float scale);
+	virtual float getScale() const;
+	interfacetype getType() const;
 	
-	SDL_Rect rect;
-	float scale;
 	SDL_Texture* tex;
 	interfacetype type;
+	SDL_Rect rect;
+	float scale;
 	bool enabled;
-
 };
 
+typedef InterfaceElement IE;
 #endif

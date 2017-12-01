@@ -42,7 +42,7 @@ bool j1Gui::PreUpdate()
 	p2List_item<InterfaceElement*>* current_element = elements.start;
 	while (current_element != NULL)
 	{
-		if (current_element->data->enabled)
+		if (current_element->data->isEnabled())
 			current_element->data->PreUpdate();
 		current_element = current_element->next;
 	}
@@ -73,7 +73,7 @@ bool j1Gui::PostUpdate()
 	p2List_item<InterfaceElement*>* current_element = elements.start;
 	while (current_element != NULL)
 	{
-		if (current_element->data->enabled)
+		if (current_element->data->isEnabled())
 			current_element->data->PostUpdate();
 		current_element = current_element->next;
 	}
@@ -139,10 +139,22 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Colo
 	return aux;
 }
 
-Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, void (*onclick)(const char*),
+Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
 	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
 {
-	Button* aux = new Button(_x, _y, _tex, _enabled, _anim, onclick, _hovered_anim, _pressed_anim);
+	Button* aux = new Button(_x, _y, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
+
+	if (_anim != nullptr) {
+		_x += _anim->w / 2;
+		_y += _anim->h / 2;
+	}
+	else if (_tex != nullptr) {
+		int w, h;
+		SDL_QueryTexture(_tex, nullptr, nullptr, &w, &h);
+		_x += w / 2;
+		_y += h / 2;
+	}
+
 	Label* label = new Label(_x, _y, font_path, pSize, mode);
 	aux->setLabel(label);
 	elements.add(aux);
