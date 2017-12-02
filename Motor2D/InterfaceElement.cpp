@@ -1,9 +1,10 @@
 #include "InterfaceElement.h"
 #include "j1Render.h"
+#include "j1Window.h"
 
 
 
-InterfaceElement::InterfaceElement() : enabled(true)
+InterfaceElement::InterfaceElement() : enabled(true), scale(App->win->GetScale())
 {
 }
 
