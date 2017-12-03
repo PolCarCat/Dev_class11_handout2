@@ -6,6 +6,7 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
+#include "j1Window.h"
 #include "Sprite.h"
 #include "Button.h"
 #include "Window.h"
@@ -26,6 +27,9 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	bool ret = true;
 
 	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+
+	App->win->GetWindowSize(gui_size.x, gui_size.y);
+	scale = App->win->GetScale();
 
 	return ret;
 }
@@ -96,6 +100,25 @@ const SDL_Texture* j1Gui::GetAtlas() const
 	return nullptr;
 }
 
+uiPoint j1Gui::GetGuiSize()
+{
+	return gui_size;
+}
+
+void j1Gui::setFocus(InterfaceElement * elem)
+{
+	if (focused_item != nullptr)
+		focused_item->in_focus = false;
+	focused_item = elem;
+	if (focused_item != nullptr)
+		focused_item->in_focus = true;
+}
+
+InterfaceElement * j1Gui::getFocusedItem()
+{
+	return focused_item;
+}
+
 InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled)
 {
 	InterfaceElement* aux = new InterfaceElement;
@@ -109,17 +132,17 @@ InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype ty
 	return aux;
 }
 
-Sprite* j1Gui::AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
 {
-	Sprite* aux = new Sprite(x, y, tex, enabled, anim);
+	Sprite* aux = new Sprite(x * gui_size.x / scale, y * gui_size.y / scale, tex, enabled, anim);
 	
 	elements.add(aux);
 	return aux;
 }
 
-Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
+Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
 {
-	Label* aux = new Label(x, y, font_path, psize, mode);
+	Label* aux = new Label(x * gui_size.x / scale, y * gui_size.y / scale, font_path, psize, mode);
 	aux->setColor(color);
 
 	if (format != NULL)
@@ -140,12 +163,12 @@ Label* j1Gui::AddLabel(int x, int y, int psize, const char * font_path, SDL_Colo
 	return aux;
 }
 
-Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
+Button* j1Gui::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
 	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
 {
-	Button* aux = new Button(_x, _y, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
+	Button* aux = new Button(_x * gui_size.x / scale, _y * gui_size.y / scale, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
 
-	if (_anim != nullptr) {
+	/*if (_anim != nullptr) {
 		_x += _anim->w / 2;
 		_y += _anim->h / 2;
 	}
@@ -154,17 +177,17 @@ Button* j1Gui::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL
 		SDL_QueryTexture(_tex, nullptr, nullptr, &w, &h);
 		_x += w / 2;
 		_y += h / 2;
-	}
+	}*/
 
-	Label* label = new Label(_x, _y, font_path, pSize, mode);
+	Label* label = new Label(_x * aux->getRect().w + aux->getPositionX(), _y * aux->getRect().h + aux->getPositionY(), font_path, pSize, mode);
 	aux->setLabel(label);
 	elements.add(aux);
 	return aux;
 }
 
-Window* j1Gui::AddWindow(uint x, uint y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+Window* j1Gui::AddWindow(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
 {
-	Window* aux = new Window(x, y, tex, enabled, anim);
+	Window* aux = new Window(x * gui_size.x / scale, y * gui_size.y / scale, tex, enabled, anim);
 
 	elements.add(aux);
 	return aux;

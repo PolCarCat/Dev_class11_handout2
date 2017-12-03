@@ -24,7 +24,6 @@ Label::Label(int x, int y, const char* font_path, int pSize, RenderMode mode) : 
 
 Label::~Label()
 {
-
 }
 
 

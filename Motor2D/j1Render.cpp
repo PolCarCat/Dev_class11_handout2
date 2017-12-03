@@ -188,10 +188,11 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SD
 
 	rect.x += shaky_cam_dx;
 	rect.y += shaky_cam_dy;
-
-	rect.w *= scale;
-	rect.h *= scale;
 	
+	//if (use_camera) {
+		rect.w *= scale;
+		rect.h *= scale;
+	//}
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;

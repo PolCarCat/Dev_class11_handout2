@@ -14,7 +14,8 @@ public:
 	~Window();
 
 	void DragWindow();
-	bool PostUpdate();
+	bool PostUpdate() override;
+	bool PreUpdate() override;
 
 	Sprite* AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
 	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);

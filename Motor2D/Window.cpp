@@ -14,7 +14,22 @@ Window::~Window()
 
 bool Window::PostUpdate()
 {
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
+	{
+		//DragWindow();
+		rect.x = Mouse.x + delta_pos_mouse.x;
+		rect.y = Mouse.y + delta_pos_mouse.y;
+	}
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
+		App->gui->setFocus(nullptr);
 
+	current_anim = &idle_anim;
+	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	return true;
+}
+
+bool Window::PreUpdate()
+{
 	prev_mouse = Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
@@ -25,23 +40,11 @@ bool Window::PostUpdate()
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			locked = true;
+			App->gui->setFocus(this);
 			iPoint p = { rect.x, rect.y }, m = { Mouse.x, Mouse.y };
 			delta_pos_mouse = p - m;
 		}
 	}
-
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && locked == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
-	{
-		//DragWindow();
-		rect.x = Mouse.x + delta_pos_mouse.x;
-		rect.y = Mouse.y + delta_pos_mouse.y;
-	}
-	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && locked == true)
-		locked = false;
-
-	current_anim = &idle_anim;
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	return true;
 }
 

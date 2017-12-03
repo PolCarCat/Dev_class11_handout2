@@ -44,6 +44,8 @@ public:
 	SDL_Rect rect;
 	float scale;
 	bool enabled;
+	fPoint anchor_point = { 0.0f, 0.0f };
+	bool in_focus = false;
 };
 
 typedef InterfaceElement IE;
