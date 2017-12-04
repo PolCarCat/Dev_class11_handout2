@@ -90,3 +90,23 @@ IE::interfacetype InterfaceElement::getType() const
 {
 	return type;
 }
+
+InterfaceElement * InterfaceElement::AddElement(InterfaceElement * elem)
+{
+	return elements.add(elem)->data;
+}
+
+void InterfaceElement::SetParent(InterfaceElement * parent)
+{
+	if (this->parent != nullptr)	// Erase the element from its previous parent if it already has one
+	{
+		int index = this->parent->elements.find(this);
+		if (index > -1)
+			this->parent->elements.del(this->parent->elements.At(index));
+	}
+
+	this->parent = parent;
+	parent->AddElement(this);
+
+	rel_pos.x = (parent->rect.x - )
+}

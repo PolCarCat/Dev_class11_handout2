@@ -35,7 +35,7 @@ void Button::OnHover()
 
 bool Button::PreUpdate()
 {
-	return label->PreUpdate();
+	return true;
 }
 
 bool Button::PostUpdate()
@@ -74,8 +74,6 @@ bool Button::PostUpdate()
 	}
 
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-
-	label->PostUpdate();
 	return true;
 }
 

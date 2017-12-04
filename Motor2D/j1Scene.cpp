@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	nasty_buttons = App->tex->Load("textures/buttons.png");
 	SDL_Rect rect{ 485, 829, 328, 103 };
 	//AddSprite({ 10,10,10,10 }, atlas, true, rect);
-	Window* win = App->gui->AddWindow(0, 0, left_logo);
+	Window* win = App->gui->AddWindow(0.5f, 0, left_logo);
 	win->AddSprite(1.0f, 0.0f, right_logo);
 	App->gui->AddSprite(0.5f, 0.85f, ESBR_logo);
 
@@ -63,7 +63,7 @@ bool j1Scene::Start()
 	SDL_Rect hovered{ 0,354,1007,340 };
 	SDL_Rect pressed{ 0,720,1007,340 };
 
-	win->AddButton(1.5f, 0.5f, nasty_buttons, true,&idle, &doSomething, &hovered, &pressed, "fonts/open_sans/OpenSans-Bold.ttf", 50, Label::RenderMode::SOLID);
+	win->AddButton(1.5f, 0.5f, nasty_buttons, true,&idle, &doSomething, &hovered, &pressed);
 
 	return true;
 }

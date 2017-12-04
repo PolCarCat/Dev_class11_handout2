@@ -132,17 +132,23 @@ InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype ty
 	return aux;
 }
 
-Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim, InterfaceElement* parent)
 {
-	Sprite* aux = new Sprite(x * gui_size.x / scale, y * gui_size.y / scale, tex, enabled, anim);
+	uint w = (parent == nullptr) ? gui_size.x : parent->rect.w;
+	uint h = (parent == nullptr) ? gui_size.y : parent->rect.h;
+
+	Sprite* aux = new Sprite(x * w / scale, y * h / scale, tex, enabled, anim);
 	
 	elements.add(aux);
 	return aux;
 }
 
-Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
+Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, InterfaceElement* parent, const char* format, ...)
 {
-	Label* aux = new Label(x * gui_size.x / scale, y * gui_size.y / scale, font_path, psize, mode);
+	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
+	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+
+	Label* aux = new Label(x * w, y * h, font_path, psize, mode);
 	aux->setColor(color);
 
 	if (format != NULL)
@@ -163,31 +169,23 @@ Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_
 	return aux;
 }
 
-Button* j1Gui::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
-	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
+Button* j1Gui::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, InterfaceElement* parent)
 {
-	Button* aux = new Button(_x * gui_size.x / scale, _y * gui_size.y / scale, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
+	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
+	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
 
-	/*if (_anim != nullptr) {
-		_x += _anim->w / 2;
-		_y += _anim->h / 2;
-	}
-	else if (_tex != nullptr) {
-		int w, h;
-		SDL_QueryTexture(_tex, nullptr, nullptr, &w, &h);
-		_x += w / 2;
-		_y += h / 2;
-	}*/
+	Button* aux = new Button(_x * w, _y * h, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
 
-	Label* label = new Label(_x * aux->getRect().w + aux->getPositionX(), _y * aux->getRect().h + aux->getPositionY(), font_path, pSize, mode);
-	aux->setLabel(label);
 	elements.add(aux);
 	return aux;
 }
 
-Window* j1Gui::AddWindow(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+Window* j1Gui::AddWindow(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim, InterfaceElement* parent)
 {
-	Window* aux = new Window(x * gui_size.x / scale, y * gui_size.y / scale, tex, enabled, anim);
+	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
+	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+
+	Window* aux = new Window(x * w, y * h, tex, enabled, anim);
 
 	elements.add(aux);
 	return aux;

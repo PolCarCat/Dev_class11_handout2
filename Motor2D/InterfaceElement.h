@@ -38,14 +38,22 @@ public:
 	virtual void setScale(float scale);
 	virtual float getScale() const;
 	interfacetype getType() const;
-	
+
+	void SetParent(InterfaceElement* parent);
+
 	SDL_Texture* tex;
 	interfacetype type;
 	SDL_Rect rect;
-	float scale;
-	bool enabled;
-	fPoint anchor_point = { 0.0f, 0.0f };
+	float scale = 1.0f;
+	bool enabled = true;
+	fPoint anchor_point = { 0.5f, 0.5f };
+	iPoint rel_pos;
 	bool in_focus = false;
+
+protected:
+	InterfaceElement* AddElement(InterfaceElement* elem);
+	p2List<InterfaceElement*> elements;
+	InterfaceElement* parent = nullptr;
 };
 
 typedef InterfaceElement IE;
