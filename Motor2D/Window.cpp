@@ -16,12 +16,29 @@ bool Window::PostUpdate()
 {
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
 	{
+
+		for (p2List_item<InterfaceElement*>* current_element = elements.start;
+			current_element != nullptr;
+			current_element = current_element->next)
+		{
+			current_element->data->rect.x = Mouse.x + delta_pos_mouse.x + (current_element->data->rect.x - rect.x);
+			current_element->data->rect.y = Mouse.y + delta_pos_mouse.y + (current_element->data->rect.y - rect.y);
+		}
+
 		//DragWindow();
 		rect.x = Mouse.x + delta_pos_mouse.x;
 		rect.y = Mouse.y + delta_pos_mouse.y;
+
 	}
 	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
 		App->gui->setFocus(nullptr);
+
+	for (p2List_item<InterfaceElement*>* current_element = elements.start;
+		current_element != nullptr;
+		current_element = current_element->next)
+	{
+		current_element->data->PostUpdate();
+	}
 
 	current_anim = &idle_anim;
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
@@ -45,6 +62,13 @@ bool Window::PreUpdate()
 			delta_pos_mouse = p - m;
 		}
 	}
+
+	for (p2List_item<InterfaceElement*>* current_element = elements.start;
+		current_element != nullptr;
+		current_element = current_element->next)
+	{
+		current_element->data->PreUpdate();
+	}
 	return true;
 }
 
@@ -56,17 +80,17 @@ void Window::DragWindow()
 	rect.y += mousemove.y;
 }
 
-Sprite* Window::AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
+Sprite* Window::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)
 {
-	Sprite* aux = new Sprite(x, y, tex, enabled, anim);
+	Sprite* aux = new Sprite(x * rect.w, y * rect.h, tex, enabled, anim);
 
 	elements.add(aux);
 	return aux;
 }
 
-Label* Window::AddLabel(int x, int y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
+Label* Window::AddLabel(float x, float y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
 {
-	Label* aux = new Label(x, y, font_path, psize, mode);
+	Label* aux = new Label(x * rect.w, y * rect.h, font_path, psize, mode);
 	aux->setColor(color);
 
 	if (format != NULL)
@@ -87,10 +111,10 @@ Label* Window::AddLabel(int x, int y, int psize, const char * font_path, SDL_Col
 	return aux;
 }
 
-Button* Window::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
+Button* Window::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback,
 	SDL_Rect* _hovered_anim, SDL_Rect* _pressed_anim, const char* font_path, int pSize, Label::RenderMode mode)
 {
-	Button* aux = new Button(_x, _y, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
+	Button* aux = new Button(_x * rect.w, _y * rect.h, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
 
 	if (_anim != nullptr) {
 		_x += _anim->w / 2;
@@ -103,7 +127,7 @@ Button* Window::AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SD
 		_y += h / 2;
 	}
 
-	Label* label = new Label(_x, _y, font_path, pSize, mode);
+	Label* label = new Label(_x * rect.w, _y * rect.h, font_path, pSize, mode);
 	aux->setLabel(label);
 	elements.add(aux);
 	return aux;

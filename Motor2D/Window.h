@@ -17,9 +17,9 @@ public:
 	bool PostUpdate() override;
 	bool PreUpdate() override;
 
-	Sprite* AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
-	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
-	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr,
+	Sprite* AddSprite(float x, float y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
+	Label* AddLabel(float x, float y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
+	Button* AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr,
 		SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
 
 
