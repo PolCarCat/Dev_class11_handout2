@@ -55,6 +55,8 @@ bool Label::PreUpdate()
 
 bool Label::PostUpdate()
 {
+	bool ret = InterfaceElement::PostUpdate();
+
 	if (font != nullptr) {
 		int d_x = 0, d_y = 0;
 		switch (alignment)
@@ -74,7 +76,7 @@ bool Label::PostUpdate()
 		}
 		App->render->Blit(tex, rect.x + d_x, rect.y + d_y, false);
 	}
-	return true;
+	return ret;
 }
 
 bool Label::CleanUp()

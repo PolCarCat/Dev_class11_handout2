@@ -35,7 +35,9 @@ Sprite::~Sprite()
 
 bool Sprite::PostUpdate()
 {
+	bool ret = InterfaceElement::PostUpdate();
+
 	current_anim = &idle_anim;
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-	return true;
+	return ret;
 }

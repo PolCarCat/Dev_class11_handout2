@@ -14,6 +14,8 @@ Window::~Window()
 
 bool Window::PostUpdate()
 {
+	bool ret = InterfaceElement::PostUpdate();
+
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
 	{
 		DragWindow();
@@ -21,16 +23,9 @@ bool Window::PostUpdate()
 	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
 		App->gui->setFocus(nullptr);
 
-	for (p2List_item<InterfaceElement*>* current_element = elements.start;
-		current_element != nullptr;
-		current_element = current_element->next)
-	{
-		current_element->data->PostUpdate();
-	}
-
 	current_anim = &idle_anim;
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-	return true;
+	return ret;
 }
 
 bool Window::PreUpdate()

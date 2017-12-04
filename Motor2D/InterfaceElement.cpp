@@ -1,6 +1,7 @@
 #include "InterfaceElement.h"
 #include "j1Render.h"
 #include "j1Window.h"
+#include "j1Gui.h"
 
 
 
@@ -37,7 +38,14 @@ bool InterfaceElement::PreUpdate()
 
 bool InterfaceElement::PostUpdate()
 {
-	return true;
+	bool ret = true;
+	for (p2List_item<InterfaceElement*>* current_element = elements.start;
+		current_element != nullptr && ret == true;
+		current_element = current_element->next)
+	{
+		ret = current_element->data->PostUpdate();
+	}
+	return ret;
 }
 
 bool InterfaceElement::CleanUp()
@@ -106,7 +114,16 @@ void InterfaceElement::SetParent(InterfaceElement * parent)
 	}
 
 	this->parent = parent;
-	parent->AddElement(this);
+	if (parent != nullptr)
+	{
+		parent->AddElement(this);
+		rel_pos.x = parent->rect.x - rect.x;
+		rel_pos.y = parent->rect.y - rect.y;
+	}
+	else {
+		rel_pos.x = rect.x;
+		rel_pos.y = rect.y;
 
-	rel_pos.x = (parent->rect.x - )
+		App->gui->AddElement(this);
+	}
 }

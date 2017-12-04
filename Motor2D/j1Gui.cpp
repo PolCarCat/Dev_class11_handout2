@@ -119,17 +119,12 @@ InterfaceElement * j1Gui::getFocusedItem()
 	return focused_item;
 }
 
-InterfaceElement* j1Gui::AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled)
+InterfaceElement * j1Gui::AddElement(InterfaceElement * elem)
 {
-	InterfaceElement* aux = new InterfaceElement;
-	aux->type = type;
-	aux->rect = size;
-	aux->tex = tex;
-	aux->enabled = enabled;
+	if (elements.find(elem) < 0)
+		elements.add(elem);
 
-	elements.add(aux);
-
-	return aux;
+	return elem;
 }
 
 Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim, InterfaceElement* parent)
@@ -138,12 +133,14 @@ Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_R
 	uint h = (parent == nullptr) ? gui_size.y : parent->rect.h;
 
 	Sprite* aux = new Sprite(x * w / scale, y * h / scale, tex, enabled, anim);
-	
-	elements.add(aux);
+
+	if (parent != nullptr)
+		aux->SetParent(parent);
+	else elements.add(aux);
 	return aux;
 }
 
-Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_Color color, Label::RenderMode mode, InterfaceElement* parent, const char* format, ...)
+Label* j1Gui::AddLabel(float x, float y, int psize, InterfaceElement* parent, const char * font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...)
 {
 	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
 	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
@@ -164,8 +161,10 @@ Label* j1Gui::AddLabel(float x, float y, int psize, const char * font_path, SDL_
 			aux->setString(buffer);
 		}
 	}
-	elements.add(aux);
 
+	if (parent != nullptr)
+		aux->SetParent(parent);
+	else elements.add(aux);
 	return aux;
 }
 
@@ -176,7 +175,9 @@ Button* j1Gui::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, S
 
 	Button* aux = new Button(_x * w, _y * h, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
 
-	elements.add(aux);
+	if (parent != nullptr)
+		aux->SetParent(parent);
+	else elements.add(aux);
 	return aux;
 }
 
@@ -187,7 +188,9 @@ Window* j1Gui::AddWindow(float x, float y, SDL_Texture* tex, bool enabled, SDL_R
 
 	Window* aux = new Window(x * w, y * h, tex, enabled, anim);
 
-	elements.add(aux);
+	if (parent != nullptr)
+		aux->SetParent(parent);
+	else elements.add(aux);
 	return aux;
 }
 // class Gui ---------------------------------------------------

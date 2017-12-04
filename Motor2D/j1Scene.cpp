@@ -46,24 +46,27 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-	text = App->gui->AddLabel(0.5, 0.2f, 50, "fonts/open_sans/OpenSans-Bold.ttf", {128, 0, 255, 128}, Label::BLENDED, "Hello %s", "World");
-
 	atlas = App->tex->Load(App->gui->atlas_file_name.GetString());
 	left_logo = App->tex->Load("wow/Glues-Logo-Left.png");
 	right_logo = App->tex->Load("wow/Glues-Logo-Right.png");
 	ESBR_logo = App->tex->Load("wow/Glues-ESRBRating.png");
 	nasty_buttons = App->tex->Load("textures/buttons.png");
+
 	SDL_Rect rect{ 485, 829, 328, 103 };
 	//AddSprite({ 10,10,10,10 }, atlas, true, rect);
 	Window* win = App->gui->AddWindow(0.5f, 0, left_logo);
-	win->AddSprite(1.0f, 0.0f, right_logo);
+	Sprite* spr = App->gui->AddSprite(1.0f, 0.0f, right_logo, true, nullptr, win);
+
 	App->gui->AddSprite(0.5f, 0.85f, ESBR_logo);
 
 	SDL_Rect idle{ 0, 0, 1007, 340 };
 	SDL_Rect hovered{ 0,354,1007,340 };
 	SDL_Rect pressed{ 0,720,1007,340 };
 
-	win->AddButton(1.5f, 0.5f, nasty_buttons, true,&idle, &doSomething, &hovered, &pressed);
+	Button* button = App->gui->AddButton(1.5f, 0.5f, nasty_buttons, true, &idle, &doSomething, &hovered, &pressed, win);
+
+	text = App->gui->AddLabel(0.5, 0.2f, 50, button, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 0, 255, 128 }, Label::BLENDED, "Hello %s", "World");
+	button->setLabel(text);
 
 	return true;
 }
@@ -71,7 +74,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;

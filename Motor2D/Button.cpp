@@ -40,6 +40,8 @@ bool Button::PreUpdate()
 
 bool Button::PostUpdate()
 {
+	bool ret = InterfaceElement::PostUpdate();
+
 	SDL_Rect Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
@@ -51,19 +53,25 @@ bool Button::PostUpdate()
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
-			label->setString("Left mouse button click");
+
+			if (label != nullptr)
+				label->setString("Left mouse button click");
 			OnClick("Left mouse button click");
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
-			label->setString("Right mouse button click");
+
+			if (label != nullptr)
+				label->setString("Right mouse button click");
 			OnClick("Right mouse button click");
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_IDLE && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_IDLE)
 		{
 			current_anim = &hovered_anim;
-			label->setString("Hovered");
+
+			if (label != nullptr)
+				label->setString("Hovered");
 			OnHover();
 		}
 	}
@@ -74,7 +82,7 @@ bool Button::PostUpdate()
 	}
 
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-	return true;
+	return ret;
 }
 
 void Button::setLabel(Label * label)
