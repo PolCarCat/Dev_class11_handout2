@@ -33,11 +33,6 @@ void Button::OnHover()
 {
 }
 
-bool Button::PreUpdate()
-{
-	return true;
-}
-
 bool Button::PostUpdate()
 {
 	SDL_Rect Mouse;
@@ -45,8 +40,11 @@ bool Button::PostUpdate()
 	Mouse.w = CURSOR_WIDTH;
 	Mouse.h = CURSOR_WIDTH;
 
-	SDL_Rect result;
-	if (SDL_IntersectRect(&rect, &Mouse, &result) == SDL_TRUE)
+	SDL_Rect result, r;
+	r = rect;
+	r.x += abs_pos.x;
+	r.y += abs_pos.y;
+	if (SDL_IntersectRect(&r, &Mouse, &result) == SDL_TRUE)
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
@@ -80,16 +78,17 @@ bool Button::PostUpdate()
 		label->setString("Idle");
 	}
 
-	if (in_focus)
+	/*if (in_focus)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			OnClick("focus");
 			current_anim = &pressed_anim;
-		}
+		}*/
 
-		App->render->Blit(tex, rect.x + (parent != nullptr) ? parent->rect.x : 0, rect.y, false, current_anim);
-	}
+		ComputeAbsolutePos();
+		App->render->Blit(tex, rect.x + abs_pos.x, rect.y + abs_pos.y, false, current_anim);
+	//}
 
 	bool ret = InterfaceElement::PostUpdate();
 	

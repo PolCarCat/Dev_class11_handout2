@@ -55,9 +55,7 @@ bool j1Scene::Start()
 	SDL_Rect rect{ 485, 829, 328, 103 };
 	//AddSprite({ 10,10,10,10 }, atlas, true, rect);
 	Window* win = App->gui->AddWindow(0.5f, 0.5f, left_logo);
-	banner = App->gui->AddSprite(1.5f, 0.5f, right_logo, true, nullptr, win);
-
-	Sprite* spr2 = App->gui->AddSprite(1.5f, 0.5f, right_logo, true, nullptr, win);
+	banner = App->gui->AddSprite(1.0f, 0.0f, right_logo, true, nullptr, win);
 
 	App->gui->AddSprite(0.5f, 0.85f, ESBR_logo);
 
@@ -65,9 +63,9 @@ bool j1Scene::Start()
 	SDL_Rect hovered{ 0, 354, 100, 75 };
 	SDL_Rect pressed{ 0, 720, 100, 75 };
 
-	Button* button = App->gui->AddButton(0.5f, 0.5f, nasty_buttons, true, &idle, &doSomething, &hovered, &pressed, win);
+	Button* button = App->gui->AddButton(0.0f, 0.0f, nasty_buttons, true, &idle, &doSomething, &hovered, &pressed, win);
 
-	text = App->gui->AddLabel(0.5, 0.2f, 50, button, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 0, 255, 128 }, Label::BLENDED, "Hello %s", "World");
+	text = App->gui->AddLabel(0.0, 0.0f, 50, button, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 0, 255, 128 }, Label::BLENDED, "Hello %s", "World");
 	button->setLabel(text);
 
 	return true;
@@ -141,7 +139,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		//App->render->camera.x -= floor(200.0f * dt);
-		banner->SetAnchor(banner->GetAnchorX() + 0.1f, banner->GetAnchorY());
+		banner->SetAnchor(banner->GetAnchorX() - 0.1f, banner->GetAnchorY());
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)

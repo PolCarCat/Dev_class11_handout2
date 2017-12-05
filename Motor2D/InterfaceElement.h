@@ -12,13 +12,15 @@ class InterfaceElement
 public:
 	InterfaceElement();
 	~InterfaceElement();
-	enum interfacetype
+	enum Interfacetype
 	{
+		NONE = -1,
 		BUTTON,
 		LABEL,
 		SPRITE,
 		TEXT_INPUT,
-		CHECK_BUTTON
+		CHECK_BUTTON,
+		WINDOW
 	};
 
 
@@ -37,7 +39,7 @@ public:
 	virtual void setPositionY(int y);
 	virtual void setScale(float scale);
 	virtual float getScale() const;
-	interfacetype getType() const;
+	Interfacetype getType() const;
 
 	void SetAnchor(float x, float y);
 	void GetAnchor(float& x, float& y) const;
@@ -46,12 +48,15 @@ public:
 
 	void SetParent(InterfaceElement* parent);
 
-	SDL_Texture* tex;
-	interfacetype type;
+	void ComputeAbsolutePos();
+
+	SDL_Texture* tex = nullptr;
+	Interfacetype type = NONE;
 	SDL_Rect rect;
 	float scale = 1.0f;
 	bool enabled = true;
 	iPoint rel_pos;
+	iPoint abs_pos;
 	bool in_focus = false;
 
 
@@ -59,11 +64,7 @@ protected:
 	InterfaceElement* AddElement(InterfaceElement* elem);
 	p2List<InterfaceElement*> elements;
 	InterfaceElement* parent = nullptr;
-<<<<<<< HEAD
-=======
 	void SetFocus();
-};
->>>>>>> 1267f70a8603233c8a57d7bc996c931f02ddd86d
 
 	fPoint anchor_point = { 0.5f, 0.5f };
 };

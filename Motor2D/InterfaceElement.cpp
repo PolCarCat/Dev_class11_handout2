@@ -33,7 +33,15 @@ bool InterfaceElement::Start()
 
 bool InterfaceElement::PreUpdate()
 {
-	return true;
+	bool ret = true;
+
+	for (p2List_item<InterfaceElement*>* current_element = elements.start;
+		current_element != nullptr && ret == true;
+		current_element = current_element->next)
+	{
+		ret = current_element->data->PreUpdate();
+	}
+	return ret;
 }
 
 bool InterfaceElement::PostUpdate()
@@ -48,9 +56,12 @@ bool InterfaceElement::PostUpdate()
 	}
 
 	if (App->gui->debug_draw) {
-		App->render->DrawQuad(rect, 0, 0, 255, 255, false, false);
-		App->render->DrawLine(rect.x, rect.y + rect.h * anchor_point.y, rect.x + rect.w, rect.y + rect.h * anchor_point.y, 0, 0, 255, 255, false);
-		App->render->DrawLine(rect.x + rect.w * anchor_point.x, rect.y, rect.x + rect.w * anchor_point.x, rect.y + rect.h, 0, 0, 255, 255, false);
+		SDL_Rect r = rect;
+		r.x += abs_pos.x;
+		r.y += abs_pos.y;
+		App->render->DrawQuad(r, 0, 0, 255, 255, false, false);
+		App->render->DrawLine(r.x, r.y + r.h * anchor_point.y, r.x + r.w, r.y + r.h * anchor_point.y, 0, 0, 255, 255, false);
+		App->render->DrawLine(r.x + r.w * anchor_point.x, r.y, r.x + r.w * anchor_point.x, r.y + r.h, 0, 0, 255, 255, false);
 	}
 
 	return ret;
@@ -68,28 +79,28 @@ SDL_Rect InterfaceElement::getRect() const
 
 int InterfaceElement::getPositionX() const
 {
-	return rect.x;
+	return rel_pos.x;
 }
 
 int InterfaceElement::getPositionY() const
 {
-	return rect.y;
+	return rel_pos.y;
 }
 
 void InterfaceElement::setPosition(int x, int y)
 {
-	rect.x = x;
-	rect.y = y;
+	rel_pos.x = x;
+	rel_pos.y = y;
 }
 
 void InterfaceElement::setPositionX(int x)
 {
-	rect.x = x;
+	rel_pos.x = x;
 }
 
 void InterfaceElement::setPositionY(int y)
 {
-	rect.y = y;
+	rel_pos.y = y;
 }
 
 void InterfaceElement::setScale(float scale)
@@ -102,21 +113,18 @@ float InterfaceElement::getScale() const
 	return scale;
 }
 
-InterfaceElement::interfacetype InterfaceElement::getType() const
+InterfaceElement::Interfacetype InterfaceElement::getType() const
 {
 	return type;
 }
 
 void InterfaceElement::SetAnchor(float x, float y)
 {
-	/*rect.x += anchor_point.x * rect.w;
-	rect.y += anchor_point.y * rect.h;*/
-
 	anchor_point.x = x;
 	anchor_point.y = y;
 
-	rect.x -= anchor_point.x * rect.w;
-	rect.y -= anchor_point.y * rect.h;
+	rect.x = -anchor_point.x * rect.w;
+	rect.y = -anchor_point.y * rect.h;
 }
 
 void InterfaceElement::GetAnchor(float & x, float & y) const
@@ -150,23 +158,17 @@ void InterfaceElement::SetParent(InterfaceElement * parent)
 	}
 
 	this->parent = parent;
-	if (parent != nullptr)
-	{
+	if (parent != nullptr) {
 		parent->AddElement(this);
-		rel_pos.x = rect.x - parent->rect.x;
-		rel_pos.y = rect.y - parent->rect.y;
+		App->gui->RemoveElement(this);
 	}
-	else {
-		rel_pos.x = rect.x;
-		rel_pos.y = rect.y;
-
+	else
 		App->gui->AddElement(this);
-	}
 }
 
 void InterfaceElement::SetFocus()
 {
-	p2List_item<IE*>* curr = parent->elements.start;
+	p2List_item<InterfaceElement*>* curr = parent->elements.start;
 
 	while (curr != NULL)
 	{
@@ -174,4 +176,11 @@ void InterfaceElement::SetFocus()
 		curr = curr->next;
 	}
 	this->in_focus = true;
+}
+
+void InterfaceElement::ComputeAbsolutePos()
+{
+	if (parent != nullptr)
+		abs_pos = rel_pos + parent->abs_pos;
+	else abs_pos = rel_pos;
 }

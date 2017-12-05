@@ -55,18 +55,12 @@ public:
 	InterfaceElement* getFocusedItem();
 
 	InterfaceElement* AddElement(InterfaceElement* elem);
+	bool RemoveElement(InterfaceElement* elem);
 
-<<<<<<< HEAD
 	bool debug_draw = false;
-=======
->>>>>>> 1267f70a8603233c8a57d7bc996c931f02ddd86d
 
 private:
 	p2List<InterfaceElement*> elements;
-	p2List<Sprite*> sprites;
-	p2List<Label*> labels;
-	p2List<Button*> buttons;
-	p2List<Window*> windows;
 
 	uiPoint gui_size;
 	float scale;

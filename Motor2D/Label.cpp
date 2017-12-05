@@ -50,11 +50,15 @@ bool Label::PreUpdate()
 		ret = RenderFont();
 		text_changed = false;
 	}
+
+	InterfaceElement::PreUpdate();
 	return ret;
 }
 
 bool Label::PostUpdate()
 {
+	ComputeAbsolutePos();
+
 	if (font != nullptr) {
 		int d_x = 0, d_y = 0;
 		switch (alignment)
@@ -72,7 +76,7 @@ bool Label::PostUpdate()
 		default:
 			break;
 		}
-		App->render->Blit(tex, rect.x + d_x, rect.y + d_y, false);
+		App->render->Blit(tex, rect.x + d_x + abs_pos.x, rect.y + d_y + abs_pos.y, false);
 	}
 
 	bool ret = InterfaceElement::PostUpdate();
@@ -96,13 +100,8 @@ bool Label::RenderFont()
 
 	if (tex == nullptr)
 		ret = false;
-	else {
-		uint prev_w = rect.w, prev_h = rect.h;
+	else
 		SDL_QueryTexture(tex, nullptr, nullptr, &rect.w, &rect.h);
-
-		rect.x -= anchor_point.x * (rect.w - prev_w);
-		rect.y -= anchor_point.y * (rect.h - prev_h);
-	}
 
 	return ret;
 }
