@@ -50,10 +50,12 @@ public:
 	iPoint rel_pos;
 	bool in_focus = false;
 
+
 protected:
 	InterfaceElement* AddElement(InterfaceElement* elem);
 	p2List<InterfaceElement*> elements;
 	InterfaceElement* parent = nullptr;
+	void SetFocus();
 };
 
 typedef InterfaceElement IE;

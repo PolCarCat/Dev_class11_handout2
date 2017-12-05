@@ -19,6 +19,7 @@ public:
 		SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
 
 	void Focus();
+
 	
 	InterfaceElement* onfocus = nullptr;
 
