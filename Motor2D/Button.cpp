@@ -83,7 +83,15 @@ bool Button::PostUpdate()
 	}
 
 	if (in_focus)
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			OnClick("focus");
+			current_anim = &pressed_anim;
+		}
+		App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	}
+	
 
 	return ret;
 }

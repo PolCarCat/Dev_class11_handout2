@@ -57,6 +57,8 @@ bool j1Scene::Start()
 	Window* win = App->gui->AddWindow(0.5f, 0, left_logo);
 	Sprite* spr = App->gui->AddSprite(1.0f, 0.0f, right_logo, true, nullptr, win);
 
+	Sprite* spr2 = App->gui->AddSprite(1.5f, 0.5f, right_logo, true, nullptr, win);
+
 	App->gui->AddSprite(0.5f, 0.85f, ESBR_logo);
 
 	SDL_Rect idle{ 0, 0, 1007, 340 };
@@ -144,8 +146,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= floor(200.0f * dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
-		App->gui->switch_focus = true;
+
 
 
 	App->map->Draw();

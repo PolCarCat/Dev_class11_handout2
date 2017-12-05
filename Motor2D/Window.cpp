@@ -137,7 +137,7 @@ void Window::Focus()
 		if (curr->data->in_focus)
 		{
 			onfocus = curr->data;
-			if (App->gui->switch_focus)
+			if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 			{
 				onfocus->in_focus = false;
 				if (curr->next == NULL)
@@ -147,7 +147,19 @@ void Window::Focus()
 				onfocus = curr->next->data;
 
 				onfocus->in_focus = true;
-				App->gui->switch_focus = false;
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+			{
+				onfocus->in_focus = false;
+				if (curr->prev == NULL)
+					onfocus = elements.end->data;
+
+				else
+					onfocus = curr->prev->data;
+
+				onfocus->in_focus = true;
+
+				break;
 			}
 			
 			break;
