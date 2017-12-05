@@ -163,3 +163,15 @@ void InterfaceElement::SetParent(InterfaceElement * parent)
 		App->gui->AddElement(this);
 	}
 }
+
+void InterfaceElement::SetFocus()
+{
+	p2List_item<IE*>* curr = parent->elements.start;
+
+	while (curr != NULL)
+	{
+		curr->data->in_focus = false;
+		curr = curr->next;
+	}
+	this->in_focus = true;
+}

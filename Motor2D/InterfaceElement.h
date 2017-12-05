@@ -54,10 +54,16 @@ public:
 	iPoint rel_pos;
 	bool in_focus = false;
 
+
 protected:
 	InterfaceElement* AddElement(InterfaceElement* elem);
 	p2List<InterfaceElement*> elements;
 	InterfaceElement* parent = nullptr;
+<<<<<<< HEAD
+=======
+	void SetFocus();
+};
+>>>>>>> 1267f70a8603233c8a57d7bc996c931f02ddd86d
 
 	fPoint anchor_point = { 0.5f, 0.5f };
 };

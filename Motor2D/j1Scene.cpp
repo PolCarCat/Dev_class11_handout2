@@ -57,6 +57,8 @@ bool j1Scene::Start()
 	Window* win = App->gui->AddWindow(0.5f, 0.5f, left_logo);
 	banner = App->gui->AddSprite(1.5f, 0.5f, right_logo, true, nullptr, win);
 
+	Sprite* spr2 = App->gui->AddSprite(1.5f, 0.5f, right_logo, true, nullptr, win);
+
 	App->gui->AddSprite(0.5f, 0.85f, ESBR_logo);
 
 	SDL_Rect idle{ 0, 0, 100, 75 };
@@ -144,6 +146,9 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		App->gui->debug_draw = !App->gui->debug_draw;
+
+
+
 
 	App->map->Draw();
 

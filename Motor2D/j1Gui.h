@@ -56,7 +56,10 @@ public:
 
 	InterfaceElement* AddElement(InterfaceElement* elem);
 
+<<<<<<< HEAD
 	bool debug_draw = false;
+=======
+>>>>>>> 1267f70a8603233c8a57d7bc996c931f02ddd86d
 
 private:
 	p2List<InterfaceElement*> elements;

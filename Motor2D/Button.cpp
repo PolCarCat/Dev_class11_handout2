@@ -51,6 +51,7 @@ bool Button::PostUpdate()
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
+			SetFocus();
 
 			if (label != nullptr)
 				label->setString("Left mouse button click");
@@ -79,9 +80,19 @@ bool Button::PostUpdate()
 		label->setString("Idle");
 	}
 
-	App->render->Blit(tex, rect.x  + (parent != nullptr) ? parent->rect.x : 0, rect.y, false, current_anim);
+	if (in_focus)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			OnClick("focus");
+			current_anim = &pressed_anim;
+		}
+
+		App->render->Blit(tex, rect.x + (parent != nullptr) ? parent->rect.x : 0, rect.y, false, current_anim);
+	}
 
 	bool ret = InterfaceElement::PostUpdate();
+	
 	return ret;
 }
 

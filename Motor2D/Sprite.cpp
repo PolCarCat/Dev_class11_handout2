@@ -39,6 +39,8 @@ Sprite::~Sprite()
 bool Sprite::PostUpdate()
 {
 	current_anim = &idle_anim;
+
+	if (in_focus)
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 
 	bool ret = InterfaceElement::PostUpdate();

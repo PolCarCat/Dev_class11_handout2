@@ -13,11 +13,33 @@ Window::~Window()
 {
 }
 
+<<<<<<< HEAD
+=======
+bool Window::PostUpdate()
+{
+	bool ret = InterfaceElement::PostUpdate();
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
+	{
+		DragWindow();
+	}
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
+		App->gui->setFocus(nullptr);
+
+
+	current_anim = &idle_anim;
+	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	return ret;
+}
+
+>>>>>>> 1267f70a8603233c8a57d7bc996c931f02ddd86d
 bool Window::PreUpdate()
 {
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
 	Mouse.h = CURSOR_WIDTH;
+
+	Focus();
 
 	SDL_Rect result;
 	if (SDL_IntersectRect(&rect, &Mouse, &result) == SDL_TRUE)
@@ -129,3 +151,46 @@ Button* Window::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, 
 	label->SetParent(aux);
 	return aux;
 }
+
+void Window::Focus()
+{
+	p2List_item<IE*>* curr = elements.start;
+
+	while(curr != NULL)
+	{
+		if (curr->data->in_focus)
+		{
+			onfocus = curr->data;
+			if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			{
+				onfocus->in_focus = false;
+				if (curr->next == NULL)
+					onfocus = elements.start->data;
+				
+				else
+				onfocus = curr->next->data;
+
+				onfocus->in_focus = true;
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+			{
+				onfocus->in_focus = false;
+				if (curr->prev == NULL)
+					onfocus = elements.end->data;
+
+				else
+					onfocus = curr->prev->data;
+
+				onfocus->in_focus = true;
+
+				break;
+			}
+			
+			break;
+		}
+			
+		curr = curr->next;
+	}
+	
+}
+
