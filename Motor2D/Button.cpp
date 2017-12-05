@@ -53,6 +53,7 @@ bool Button::PostUpdate()
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
+			in_focus = true;
 
 			if (label != nullptr)
 				label->setString("Left mouse button click");
@@ -81,7 +82,9 @@ bool Button::PostUpdate()
 		label->setString("Idle");
 	}
 
+	if (in_focus)
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+
 	return ret;
 }
 

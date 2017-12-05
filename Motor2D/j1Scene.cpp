@@ -144,6 +144,10 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= floor(200.0f * dt);
 
+	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+		App->gui->switch_focus = true;
+
+
 	App->map->Draw();
 
 	int x, y;

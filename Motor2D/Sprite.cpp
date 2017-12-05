@@ -38,6 +38,8 @@ bool Sprite::PostUpdate()
 	bool ret = InterfaceElement::PostUpdate();
 
 	current_anim = &idle_anim;
+
+	if (in_focus)
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	return ret;
 }

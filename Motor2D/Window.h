@@ -18,6 +18,9 @@ public:
 	Button* AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr,
 		SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
 
+	void Focus();
+	
+	InterfaceElement* onfocus = nullptr;
 
 	SDL_Rect Mouse;
 	bool locked = false;

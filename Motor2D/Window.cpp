@@ -23,6 +23,7 @@ bool Window::PostUpdate()
 	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
 		App->gui->setFocus(nullptr);
 
+
 	current_anim = &idle_anim;
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	return ret;
@@ -33,6 +34,8 @@ bool Window::PreUpdate()
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
 	Mouse.h = CURSOR_WIDTH;
+
+	Focus();
 
 	SDL_Rect result;
 	if (SDL_IntersectRect(&rect, &Mouse, &result) == SDL_TRUE)
@@ -123,4 +126,34 @@ Button* Window::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, 
 	aux->rel_pos = iPoint(_x * aux->rect.w, _y * aux->rect.h);
 	label->SetParent(aux);
 	return aux;
+}
+
+void Window::Focus()
+{
+	p2List_item<IE*>* curr = elements.start;
+
+	while(curr != NULL)
+	{
+		if (curr->data->in_focus)
+		{
+			onfocus = curr->data;
+			if (App->gui->switch_focus)
+			{
+				onfocus->in_focus = false;
+				if (curr->next == NULL)
+					onfocus = elements.start->data;
+				
+				else
+				onfocus = curr->next->data;
+
+				onfocus->in_focus = true;
+				App->gui->switch_focus = false;
+			}
+			
+			break;
+		}
+			
+		curr = curr->next;
+	}
+	
 }

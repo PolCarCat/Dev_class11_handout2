@@ -57,6 +57,9 @@ public:
 
 	InterfaceElement* AddElement(InterfaceElement* elem);
 
+	bool switch_focus = false;
+
+
 private:
 	p2List<InterfaceElement*> elements;
 	p2List<Sprite*> sprites;
