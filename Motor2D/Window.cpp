@@ -1,3 +1,4 @@
+
 #include "Window.h"
 #include "j1Input.h"
 #include "j1Window.h"
@@ -10,22 +11,6 @@ Window::Window(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 
 Window::~Window()
 {
-}
-
-bool Window::PostUpdate()
-{
-	bool ret = InterfaceElement::PostUpdate();
-
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
-	{
-		DragWindow();
-	}
-	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
-		App->gui->setFocus(nullptr);
-
-	current_anim = &idle_anim;
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-	return ret;
 }
 
 bool Window::PreUpdate()
@@ -51,21 +36,41 @@ bool Window::PreUpdate()
 	{
 		current_element->data->PreUpdate();
 	}
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && in_focus == true/*prev_mouse.x != Mouse.x && prev_mouse.y != Mouse.y*/)
+	{
+		DragWindow();
+	}
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && in_focus == true)
+		App->gui->setFocus(nullptr);
+
 	return true;
+}
+
+bool Window::PostUpdate()
+{
+	current_anim = &idle_anim;
+	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+
+	bool ret = InterfaceElement::PostUpdate();
+	return ret;
 }
 
 void Window::DragWindow()
 {
+	int d_x = Mouse.x + delta_pos_mouse.x;
+	int d_y = Mouse.y + delta_pos_mouse.y;
+
 	for (p2List_item<InterfaceElement*>* current_element = elements.start;
 		current_element != nullptr;
 		current_element = current_element->next)
 	{
-		current_element->data->rect.x = Mouse.x + delta_pos_mouse.x + (current_element->data->rect.x - rect.x);
-		current_element->data->rect.y = Mouse.y + delta_pos_mouse.y + (current_element->data->rect.y - rect.y);
+		current_element->data->rect.x = d_x + (current_element->data->rel_pos.x);
+		current_element->data->rect.y = d_y + (current_element->data->rel_pos.y);
 	}
 
-	rect.x = Mouse.x + delta_pos_mouse.x;
-	rect.y = Mouse.y + delta_pos_mouse.y;
+	rect.x = d_x;
+	rect.y = d_y;
 }
 
 Sprite* Window::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim)

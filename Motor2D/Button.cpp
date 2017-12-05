@@ -40,8 +40,6 @@ bool Button::PreUpdate()
 
 bool Button::PostUpdate()
 {
-	bool ret = InterfaceElement::PostUpdate();
-
 	SDL_Rect Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
@@ -81,7 +79,9 @@ bool Button::PostUpdate()
 		label->setString("Idle");
 	}
 
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	App->render->Blit(tex, rect.x  + (parent != nullptr) ? parent->rect.x : 0, rect.y, false, current_anim);
+
+	bool ret = InterfaceElement::PostUpdate();
 	return ret;
 }
 

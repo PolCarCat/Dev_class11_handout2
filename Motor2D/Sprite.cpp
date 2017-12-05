@@ -25,6 +25,9 @@ Sprite::Sprite(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 	rect.w = idle_anim.w;
 	rect.h = idle_anim.h;
 
+	rect.x -= anchor_point.x * rect.w;
+	rect.y -= anchor_point.y * rect.h;
+
 	current_anim = &idle_anim;
 }
 
@@ -35,9 +38,9 @@ Sprite::~Sprite()
 
 bool Sprite::PostUpdate()
 {
-	bool ret = InterfaceElement::PostUpdate();
-
 	current_anim = &idle_anim;
 	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+
+	bool ret = InterfaceElement::PostUpdate();
 	return ret;
 }

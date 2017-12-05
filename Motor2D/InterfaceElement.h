@@ -39,6 +39,11 @@ public:
 	virtual float getScale() const;
 	interfacetype getType() const;
 
+	void SetAnchor(float x, float y);
+	void GetAnchor(float& x, float& y) const;
+	float GetAnchorX() const;
+	float GetAnchorY() const;
+
 	void SetParent(InterfaceElement* parent);
 
 	SDL_Texture* tex;
@@ -46,7 +51,6 @@ public:
 	SDL_Rect rect;
 	float scale = 1.0f;
 	bool enabled = true;
-	fPoint anchor_point = { 0.5f, 0.5f };
 	iPoint rel_pos;
 	bool in_focus = false;
 
@@ -54,7 +58,7 @@ protected:
 	InterfaceElement* AddElement(InterfaceElement* elem);
 	p2List<InterfaceElement*> elements;
 	InterfaceElement* parent = nullptr;
-};
 
-typedef InterfaceElement IE;
+	fPoint anchor_point = { 0.5f, 0.5f };
+};
 #endif

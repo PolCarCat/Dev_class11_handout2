@@ -48,7 +48,6 @@ public:
 		SDL_Rect* _pressed_anim = nullptr, InterfaceElement* parent = nullptr);
 	Window* AddWindow(float x, float y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL, InterfaceElement* parent = nullptr);
 	const SDL_Texture* GetAtlas() const;
-	bool pressing;
 	p2SString atlas_file_name;
 
 	uiPoint GetGuiSize();
@@ -56,6 +55,8 @@ public:
 	InterfaceElement* getFocusedItem();
 
 	InterfaceElement* AddElement(InterfaceElement* elem);
+
+	bool debug_draw = false;
 
 private:
 	p2List<InterfaceElement*> elements;

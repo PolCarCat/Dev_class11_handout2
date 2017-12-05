@@ -39,12 +39,20 @@ bool InterfaceElement::PreUpdate()
 bool InterfaceElement::PostUpdate()
 {
 	bool ret = true;
+
 	for (p2List_item<InterfaceElement*>* current_element = elements.start;
 		current_element != nullptr && ret == true;
 		current_element = current_element->next)
 	{
 		ret = current_element->data->PostUpdate();
 	}
+
+	if (App->gui->debug_draw) {
+		App->render->DrawQuad(rect, 0, 0, 255, 255, false, false);
+		App->render->DrawLine(rect.x, rect.y + rect.h * anchor_point.y, rect.x + rect.w, rect.y + rect.h * anchor_point.y, 0, 0, 255, 255, false);
+		App->render->DrawLine(rect.x + rect.w * anchor_point.x, rect.y, rect.x + rect.w * anchor_point.x, rect.y + rect.h, 0, 0, 255, 255, false);
+	}
+
 	return ret;
 }
 
@@ -94,9 +102,37 @@ float InterfaceElement::getScale() const
 	return scale;
 }
 
-IE::interfacetype InterfaceElement::getType() const
+InterfaceElement::interfacetype InterfaceElement::getType() const
 {
 	return type;
+}
+
+void InterfaceElement::SetAnchor(float x, float y)
+{
+	/*rect.x += anchor_point.x * rect.w;
+	rect.y += anchor_point.y * rect.h;*/
+
+	anchor_point.x = x;
+	anchor_point.y = y;
+
+	rect.x -= anchor_point.x * rect.w;
+	rect.y -= anchor_point.y * rect.h;
+}
+
+void InterfaceElement::GetAnchor(float & x, float & y) const
+{
+	x = anchor_point.x;
+	y = anchor_point.y;
+}
+
+float InterfaceElement::GetAnchorX() const
+{
+	return anchor_point.x;
+}
+
+float InterfaceElement::GetAnchorY() const
+{
+	return anchor_point.y;
 }
 
 InterfaceElement * InterfaceElement::AddElement(InterfaceElement * elem)
@@ -117,8 +153,8 @@ void InterfaceElement::SetParent(InterfaceElement * parent)
 	if (parent != nullptr)
 	{
 		parent->AddElement(this);
-		rel_pos.x = parent->rect.x - rect.x;
-		rel_pos.y = parent->rect.y - rect.y;
+		rel_pos.x = rect.x - parent->rect.x;
+		rel_pos.y = rect.y - parent->rect.y;
 	}
 	else {
 		rel_pos.x = rect.x;

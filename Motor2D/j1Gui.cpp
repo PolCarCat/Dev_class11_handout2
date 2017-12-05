@@ -43,7 +43,6 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
-	//Labels
 	p2List_item<InterfaceElement*>* current_element = elements.start;
 	while (current_element != NULL)
 	{
@@ -129,10 +128,12 @@ InterfaceElement * j1Gui::AddElement(InterfaceElement * elem)
 
 Sprite* j1Gui::AddSprite(float x, float y, SDL_Texture* tex, bool enabled, SDL_Rect* anim, InterfaceElement* parent)
 {
-	uint w = (parent == nullptr) ? gui_size.x : parent->rect.w;
-	uint h = (parent == nullptr) ? gui_size.y : parent->rect.h;
+	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
+	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+	int parent_x = (parent == nullptr) ? 0 : parent->rect.x;
+	int parent_y = (parent == nullptr) ? 0 : parent->rect.y;
 
-	Sprite* aux = new Sprite(x * w / scale, y * h / scale, tex, enabled, anim);
+	Sprite* aux = new Sprite(x * w + parent_x, y * h + parent_y, tex, enabled, anim);
 
 	if (parent != nullptr)
 		aux->SetParent(parent);
@@ -144,8 +145,10 @@ Label* j1Gui::AddLabel(float x, float y, int psize, InterfaceElement* parent, co
 {
 	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
 	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+	int parent_x = (parent == nullptr) ? 0 : parent->rect.x;
+	int parent_y = (parent == nullptr) ? 0 : parent->rect.y;
 
-	Label* aux = new Label(x * w, y * h, font_path, psize, mode);
+	Label* aux = new Label(x * w + parent_x, y * h + parent_y, font_path, psize, mode);
 	aux->setColor(color);
 
 	if (format != NULL)
@@ -172,8 +175,10 @@ Button* j1Gui::AddButton(float _x, float _y, SDL_Texture* _tex, bool _enabled, S
 {
 	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
 	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+	int parent_x = (parent == nullptr) ? 0 : parent->rect.x;
+	int parent_y = (parent == nullptr) ? 0 : parent->rect.y;
 
-	Button* aux = new Button(_x * w, _y * h, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
+	Button* aux = new Button(_x * w + parent_x, _y * h + parent_y, _tex, _enabled, _anim, callback, _hovered_anim, _pressed_anim);
 
 	if (parent != nullptr)
 		aux->SetParent(parent);
@@ -185,8 +190,10 @@ Window* j1Gui::AddWindow(float x, float y, SDL_Texture* tex, bool enabled, SDL_R
 {
 	uint w = (parent == nullptr) ? gui_size.x / scale : parent->rect.w;
 	uint h = (parent == nullptr) ? gui_size.y / scale : parent->rect.h;
+	int parent_x = (parent == nullptr) ? 0 : parent->rect.x;
+	int parent_y = (parent == nullptr) ? 0 : parent->rect.y;
 
-	Window* aux = new Window(x * w, y * h, tex, enabled, anim);
+	Window* aux = new Window(x * w + parent_x, y * h + parent_y, tex, enabled, anim);
 
 	if (parent != nullptr)
 		aux->SetParent(parent);
