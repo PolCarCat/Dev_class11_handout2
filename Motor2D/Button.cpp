@@ -35,6 +35,21 @@ void Button::OnHover()
 
 bool Button::PostUpdate()
 {
+	if (label == nullptr) //Auto set label
+	{
+		for (p2List_item<InterfaceElement*>* current_element = elements.start;
+			current_element != nullptr;
+			current_element = current_element->next)
+		{
+			if (current_element->data->type == LABEL)
+				label = (Label*)current_element->data;
+		}
+	}
+
+	ComputeAbsolutePos();
+	rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+	rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
+
 	SDL_Rect Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
@@ -42,8 +57,6 @@ bool Button::PostUpdate()
 
 	SDL_Rect result, r;
 	r = rect;
-	r.x += abs_pos.x;
-	r.y += abs_pos.y;
 	if (SDL_IntersectRect(&r, &Mouse, &result) == SDL_TRUE)
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
@@ -75,7 +88,8 @@ bool Button::PostUpdate()
 	else
 	{
 		current_anim = &idle_anim;
-		label->setString("Idle");
+		if (label != nullptr)
+			label->setString("Idle");
 	}
 
 	/*if (in_focus)
@@ -86,8 +100,7 @@ bool Button::PostUpdate()
 			current_anim = &pressed_anim;
 		}*/
 
-		ComputeAbsolutePos();
-		App->render->Blit(tex, rect.x + abs_pos.x, rect.y + abs_pos.y, false, current_anim);
+		App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	//}
 
 	bool ret = InterfaceElement::PostUpdate();

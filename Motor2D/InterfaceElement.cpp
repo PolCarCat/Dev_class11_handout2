@@ -47,6 +47,9 @@ bool InterfaceElement::PreUpdate()
 bool InterfaceElement::PostUpdate()
 {
 	bool ret = true;
+	ComputeAbsolutePos();
+	rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+	rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
 
 	for (p2List_item<InterfaceElement*>* current_element = elements.start;
 		current_element != nullptr && ret == true;
@@ -57,8 +60,6 @@ bool InterfaceElement::PostUpdate()
 
 	if (App->gui->debug_draw) {
 		SDL_Rect r = rect;
-		r.x += abs_pos.x;
-		r.y += abs_pos.y;
 		App->render->DrawQuad(r, 0, 0, 255, 255, false, false);
 		App->render->DrawLine(r.x, r.y + r.h * anchor_point.y, r.x + r.w, r.y + r.h * anchor_point.y, 0, 0, 255, 255, false);
 		App->render->DrawLine(r.x + r.w * anchor_point.x, r.y, r.x + r.w * anchor_point.x, r.y + r.h, 0, 0, 255, 255, false);
@@ -122,9 +123,6 @@ void InterfaceElement::SetAnchor(float x, float y)
 {
 	anchor_point.x = x;
 	anchor_point.y = y;
-
-	rect.x = -anchor_point.x * rect.w;
-	rect.y = -anchor_point.y * rect.h;
 }
 
 void InterfaceElement::GetAnchor(float & x, float & y) const

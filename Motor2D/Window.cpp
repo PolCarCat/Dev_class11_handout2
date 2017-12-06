@@ -16,7 +16,6 @@ Window::~Window()
 
 bool Window::PreUpdate()
 {
-
 	ComputeAbsolutePos();
 
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
@@ -27,8 +26,6 @@ bool Window::PreUpdate()
 
 	SDL_Rect result, r;
 	r = rect;
-	r.x += abs_pos.x;
-	r.y += abs_pos.y;
 	if (SDL_IntersectRect(&r, &Mouse, &result) == SDL_TRUE)
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)

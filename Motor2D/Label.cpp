@@ -9,8 +9,8 @@ Label::Label() : InterfaceElement()
 
 Label::Label(int x, int y, const char* font_path, int pSize, RenderMode mode) : InterfaceElement()
 {
-	rect.x = x;
-	rect.y = y;
+	rel_pos.x = x;
+	rel_pos.y = y;
 	rect.w = 0;
 	rect.h = 0;
 	render_mode = mode;
@@ -58,10 +58,12 @@ bool Label::PreUpdate()
 bool Label::PostUpdate()
 {
 	ComputeAbsolutePos();
+	rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+	rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
 
 	if (font != nullptr) {
 		int d_x = 0, d_y = 0;
-		switch (alignment)
+		/*switch (alignment)
 		{
 		case Label::CENTERED:
 			d_x = -rect.w / 2;
@@ -75,8 +77,8 @@ bool Label::PostUpdate()
 			break;
 		default:
 			break;
-		}
-		App->render->Blit(tex, rect.x + d_x + abs_pos.x, rect.y + d_y + abs_pos.y, false);
+		}*/
+		App->render->Blit(tex, rect.x + d_x, rect.y + d_y, false);
 	}
 
 	bool ret = InterfaceElement::PostUpdate();

@@ -150,6 +150,11 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+void j1Render::GetTextureDimensions(SDL_Texture * texture, int * w, int * h) const
+{
+	SDL_QueryTexture(texture, nullptr, nullptr, w, h);
+}
+
 // Blit to screen
 bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SDL_Rect* section, SDL_Rect* output_rect, float speed, double angle, int pivot_x, int pivot_y) const
 {

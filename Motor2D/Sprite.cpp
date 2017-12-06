@@ -22,8 +22,6 @@ Sprite::Sprite(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 
 	rect.w = idle_anim.w;
 	rect.h = idle_anim.h;
-	rect.x = -anchor_point.x * rect.w;
-	rect.y = -anchor_point.y * rect.h;
 
 	current_anim = &idle_anim;
 }
@@ -39,7 +37,9 @@ bool Sprite::PostUpdate()
 
 	//if (in_focus) {
 		ComputeAbsolutePos();
-		App->render->Blit(tex, rect.x + abs_pos.x, rect.y + abs_pos.y, false, current_anim);
+		rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+		rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
+		App->render->Blit(tex, rect.x, rect.y, false, current_anim);
 	//}
 
 	bool ret = InterfaceElement::PostUpdate();
