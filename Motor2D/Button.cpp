@@ -33,50 +33,79 @@ void Button::OnHover()
 {
 }
 
-bool Button::PreUpdate()
-{
-	return label->PreUpdate();
-}
-
 bool Button::PostUpdate()
 {
+	if (label == nullptr) //Auto set label
+	{
+		for (p2List_item<InterfaceElement*>* current_element = elements.start;
+			current_element != nullptr;
+			current_element = current_element->next)
+		{
+			if (current_element->data->type == LABEL)
+				label = (Label*)current_element->data;
+		}
+	}
+
+	ComputeAbsolutePos();
+	rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+	rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
+
 	SDL_Rect Mouse;
 	App->input->GetMousePosition(Mouse.x, Mouse.y);
 	Mouse.w = CURSOR_WIDTH;
 	Mouse.h = CURSOR_WIDTH;
 
-	SDL_Rect result;
-	if (SDL_IntersectRect(&rect, &Mouse, &result) == SDL_TRUE)
+	SDL_Rect result, r;
+	r = rect;
+	if (SDL_IntersectRect(&r, &Mouse, &result) == SDL_TRUE)
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
-			label->setString("Left mouse button click");
+			SetFocus();
+
+			if (label != nullptr)
+				label->setString("Left mouse button click");
 			OnClick("Left mouse button click");
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN)
 		{
 			current_anim = &pressed_anim;
-			label->setString("Right mouse button click");
+
+			if (label != nullptr)
+				label->setString("Right mouse button click");
 			OnClick("Right mouse button click");
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_IDLE && App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_IDLE)
 		{
 			current_anim = &hovered_anim;
-			label->setString("Hovered");
+
+			if (label != nullptr)
+				label->setString("Hovered");
 			OnHover();
 		}
 	}
 	else
 	{
 		current_anim = &idle_anim;
-		label->setString("Idle");
+		if (label != nullptr)
+			label->setString("Idle");
 	}
 
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	/*if (in_focus)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			OnClick("focus");
+			current_anim = &pressed_anim;
+		}*/
 
-	label->PostUpdate();
-	return true;
+		App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	//}
+
+	bool ret = InterfaceElement::PostUpdate();
+	
+	return ret;
 }
 
 void Button::setLabel(Label * label)

@@ -10,6 +10,7 @@
 #include "j1PathFinding.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
+#include "Window.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -45,24 +46,41 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-	text = App->gui->AddLabel(250, 550, 50, "fonts/open_sans/OpenSans-Bold.ttf", {128, 0, 255, 128}, Label::BLENDED, "Hello %s", "World");
-
 	atlas = App->tex->Load(App->gui->atlas_file_name.GetString());
 	left_logo = App->tex->Load("wow/Glues-Logo-Left.png");
 	right_logo = App->tex->Load("wow/Glues-Logo-Right.png");
 	ESBR_logo = App->tex->Load("wow/Glues-ESRBRating.png");
 	nasty_buttons = App->tex->Load("textures/buttons.png");
+
 	SDL_Rect rect{ 485, 829, 328, 103 };
 	//AddSprite({ 10,10,10,10 }, atlas, true, rect);
-	App->gui->AddWindow(0, 0, left_logo);
-	App->gui->AddSprite(256, 0, right_logo);
-	App->gui->AddSprite(20, 683, ESBR_logo);
 
-	SDL_Rect idle{ 0, 0, 1007, 340 };
-	SDL_Rect hovered{ 0,354,1007,340 };
-	SDL_Rect pressed{ 0,720,1007,340 };
+	App->gui->AddSprite(0.5f * App->gui->GetGuiSize().x / App->win->GetScale(), 0.85f * App->gui->GetGuiSize().y / App->win->GetScale(), ESBR_logo);
 
-	//App->gui->AddButton(100, 100, nasty_buttons, true,&idle, &doSomething, &hovered, &pressed, "fonts/open_sans/OpenSans-Bold.ttf", 50, Label::RenderMode::SOLID);
+	int tex_w, tex_h;
+	App->render->GetTextureDimensions(left_logo, &tex_w, &tex_h);
+
+	int win_x, win_y;
+	win_x = 0.5f * App->gui->GetGuiSize().x / App->win->GetScale() - 0.5f * tex_w;
+	win_y = 0.5f * App->gui->GetGuiSize().y / App->win->GetScale() - 0.5f * tex_h;
+	Window* win = App->gui->AddWindow(win_x, win_y, left_logo);
+	win->SetAnchor(0.5f, 0.5f);
+
+	banner = App->gui->AddSprite(1.0f * win->rect.w, 0.0f * win->rect.h, right_logo, true, nullptr);
+	banner->SetParent(win);
+	banner->SetAnchor(0.5f, 0.5f);
+
+	SDL_Rect idle{ 0, 0, 100, 75 };
+	SDL_Rect hovered{ 0, 354, 100, 75 };
+	SDL_Rect pressed{ 0, 720, 100, 75 };
+
+	Button* button = App->gui->AddButton(0.5f * win->rect.w, 0.0f * win->rect.h, nasty_buttons, true, &idle, &doSomething, &hovered, &pressed);
+	button->SetParent(win);
+	button->SetAnchor(0.5f, 0.5f);
+
+	text = App->gui->AddLabel(0.0f * button->rect.w, 0.0f * button->rect.h, 50, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 0, 255, 128 }, Label::BLENDED, "Hello %s", "World");
+	text->SetParent(button);
+	text->SetAnchor(0.5f, 0.5f);
 
 	return true;
 }
@@ -70,7 +88,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -93,8 +110,6 @@ bool j1Scene::PreUpdate()
 			origin = p;
 			origin_selected = true;
 		}*/
-
-		App->gui->pressing = true;
 	}
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 	{
@@ -109,8 +124,6 @@ bool j1Scene::PreUpdate()
 		origin = p;
 		origin_selected = true;
 		}*/
-
-		App->gui->pressing = false;
 	}
 
 	return true;
@@ -138,8 +151,16 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		App->render->camera.x += floor(200.0f * dt);
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= floor(200.0f * dt);
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+		//App->render->camera.x -= floor(200.0f * dt);
+		banner->SetAnchor(banner->GetAnchorX() - 0.1f, banner->GetAnchorY());
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		App->gui->debug_draw = !App->gui->debug_draw;
+
+
+
 
 	App->map->Draw();
 
@@ -196,5 +217,5 @@ bool j1Scene::CleanUp()
 void doSomething(const char* message)
 {
 	LOG("%s", message);
-	App->render->ShakeIt(0.5f, 10);
+	App->render->ShakeIt(1.0f, 10);
 }

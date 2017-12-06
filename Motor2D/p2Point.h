@@ -41,7 +41,7 @@ public:
 	// Math ------------------------------------------------
 	p2Point operator -(const p2Point &v) const
 	{
-		p2Vector2 r;
+		p2Point r;
 
 		r.x = x - v.x;
 		r.y = y - v.y;
@@ -51,7 +51,7 @@ public:
 
 	p2Point operator + (const p2Point &v) const
 	{
-		p2Vector2 r;
+		p2Point r;
 
 		r.x = x + v.x;
 		r.y = y + v.y;
@@ -129,6 +129,7 @@ public:
 };
 
 typedef p2Point<int> iPoint;
+typedef p2Point<unsigned int> uiPoint;
 typedef p2Point<float> fPoint;
 
 #endif // __P2POINT_H__

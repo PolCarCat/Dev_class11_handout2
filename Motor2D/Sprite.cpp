@@ -5,10 +5,8 @@ Sprite::Sprite(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _an
 {
 	type = SPRITE;
 	tex = _tex;
-	rect.x = _x;
-	rect.y = _y;
-	rect.w = 0;
-	rect.h = 0;
+	rel_pos.x = _x;
+	rel_pos.y = _y;
 	enabled = _enabled;
 
 	if (_anim != NULL)
@@ -36,6 +34,14 @@ Sprite::~Sprite()
 bool Sprite::PostUpdate()
 {
 	current_anim = &idle_anim;
-	App->render->Blit(tex, rect.x, rect.y, false, current_anim);
-	return true;
+
+	//if (in_focus) {
+		ComputeAbsolutePos();
+		rect.x = (-anchor_point.x * rect.w) + abs_pos.x;
+		rect.y = (-anchor_point.y * rect.h) + abs_pos.y;
+		App->render->Blit(tex, rect.x, rect.y, false, current_anim);
+	//}
+
+	bool ret = InterfaceElement::PostUpdate();
+	return ret;
 }

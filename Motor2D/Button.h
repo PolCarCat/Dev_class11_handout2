@@ -1,5 +1,6 @@
 #ifndef __BUTTON_H__
 #define __BUTTON_H__
+
 #include "Sprite.h"
 #include "Label.h"
 #include "j1Gui.h"
@@ -21,7 +22,6 @@ public:
 	void OnHover();
 	Callback_c OnClick = nullptr;
 	bool PostUpdate() override;
-	bool PreUpdate() override;
 	void setLabel(Label* label);
 
 private:

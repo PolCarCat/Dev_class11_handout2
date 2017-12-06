@@ -42,23 +42,29 @@ public:
 
 	// TODO 2: Create the factory methods
 	// Gui creation functions
-	InterfaceElement* AddInterface_Element(InterfaceElement::interfacetype type, SDL_Rect size, SDL_Texture* tex, bool enabled = true);
-	Sprite* AddSprite(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
-	Label* AddLabel(int x, int y, int psize, const char* font_path, SDL_Color color, Label::RenderMode mode, const char* format, ...);
-	Button* AddButton(uint _x, uint _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr,
-		SDL_Rect* _pressed_anim = nullptr, const char* font_path = nullptr, int pSize = -1, Label::RenderMode mode = Label::BLENDED);
-	Window* AddWindow(uint x, uint y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
+	Sprite* AddSprite(int x, int y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
+	Label* AddLabel(int x, int y, int psize, const char* font_path = nullptr, SDL_Color color = {0,0,0,255}, Label::RenderMode mode = Label::BLENDED, const char* format = nullptr, ...);
+	Button* AddButton(int _x, int _y, SDL_Texture* _tex, bool _enabled, SDL_Rect* _anim, Callback_c callback, SDL_Rect* _hovered_anim = nullptr, SDL_Rect* _pressed_anim = nullptr);
+	Window* AddWindow(int x, int y, SDL_Texture* tex, bool enabled = true, SDL_Rect* anim = NULL);
 	const SDL_Texture* GetAtlas() const;
-	bool pressing;
 	p2SString atlas_file_name;
+
+	uiPoint GetGuiSize();
+	void setFocus(InterfaceElement* elem);
+	InterfaceElement* getFocusedItem();
+
+	InterfaceElement* AddElement(InterfaceElement* elem);
+	bool RemoveElement(InterfaceElement* elem);
+
+	bool debug_draw = false;
 
 private:
 	p2List<InterfaceElement*> elements;
-	p2List<Sprite*> sprites;
-	p2List<Label*> labels;
-	p2List<Button*> buttons;
-	p2List<Window*> windows;
 
+	uiPoint gui_size;
+	float scale;
+
+	InterfaceElement* focused_item = nullptr;
 };
 
 #endif // __j1GUI_H__

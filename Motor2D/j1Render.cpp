@@ -150,6 +150,11 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+void j1Render::GetTextureDimensions(SDL_Texture * texture, int * w, int * h) const
+{
+	SDL_QueryTexture(texture, nullptr, nullptr, w, h);
+}
+
 // Blit to screen
 bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SDL_Rect* section, SDL_Rect* output_rect, float speed, double angle, int pivot_x, int pivot_y) const
 {
@@ -188,10 +193,11 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SD
 
 	rect.x += shaky_cam_dx;
 	rect.y += shaky_cam_dy;
-
-	rect.w *= scale;
-	rect.h *= scale;
 	
+	//if (use_camera) {
+		rect.w *= scale;
+		rect.h *= scale;
+	//}
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;
@@ -215,7 +221,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y,bool use_camera, const SD
 bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = App->win->GetScale();
+	float scale = App->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -225,9 +231,14 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	{
 		rec.x = (int)(camera.x + rect.x * scale);
 		rec.y = (int)(camera.y + rect.y * scale);
-		rec.w *= scale;
-		rec.h *= scale;
 	}
+	else {
+		rec.x = rect.x * scale;
+		rec.y = rect.y * scale;
+	}
+
+	rec.w *= scale;
+	rec.h *= scale;
 
 	int result = (filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
 
@@ -243,7 +254,7 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 bool j1Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = App->win->GetScale();
+	float scale = App->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
