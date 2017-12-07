@@ -72,6 +72,7 @@ bool j1Scene::Start()
 	banner->SetParent(win);
 	banner->SetAnchor(0.5f, 0.5f);*/
 
+	text = App->gui->AddLabel(0.0f * win->rect.w, -0.5f * win->rect.h, 50, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 128, 128, 255 }, Label::BLENDED, "This is a %s", "Window");
 	text->SetParent(win);
 	text->SetAnchor(0.5f, 0.5f);
 
