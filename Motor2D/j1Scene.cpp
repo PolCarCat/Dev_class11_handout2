@@ -57,30 +57,41 @@ bool j1Scene::Start()
 
 	App->gui->AddSprite(0.5f * App->gui->GetGuiSize().x / App->win->GetScale(), 0.85f * App->gui->GetGuiSize().y / App->win->GetScale(), ESBR_logo);
 
-	int tex_w, tex_h;
-	App->render->GetTextureDimensions(left_logo, &tex_w, &tex_h);
 
 	int win_x, win_y;
-	win_x = 0.5f * App->gui->GetGuiSize().x / App->win->GetScale() - 0.5f * tex_w;
-	win_y = 0.5f * App->gui->GetGuiSize().y / App->win->GetScale() - 0.5f * tex_h;
-	Window* win = App->gui->AddWindow(win_x, win_y, left_logo);
+	win_x = 0.5f * App->gui->GetGuiSize().x / App->win->GetScale();
+	win_y = 0.5f * App->gui->GetGuiSize().y / App->win->GetScale();
+	SDL_Texture* gui_atlas = App->tex->Load("gui/atlas.png");
+	int tex_w, tex_h;
+	App->render->GetTextureDimensions(gui_atlas, &tex_w, &tex_h);
+	SDL_Rect win_rect{ 0, 512, 484, 512 };
+	Window* win = App->gui->AddWindow(win_x, win_y, gui_atlas, true, &win_rect);
 	win->SetAnchor(0.5f, 0.5f);
 
-	banner = App->gui->AddSprite(1.0f * win->rect.w, 0.0f * win->rect.h, right_logo, true, nullptr);
+	/*banner = App->gui->AddSprite(1.0f * win->rect.w, 0.0f * win->rect.h, right_logo, true, nullptr);
 	banner->SetParent(win);
-	banner->SetAnchor(0.5f, 0.5f);
+	banner->SetAnchor(0.5f, 0.5f);*/
 
-	SDL_Rect idle{ 0, 0, 100, 75 };
-	SDL_Rect hovered{ 0, 354, 100, 75 };
-	SDL_Rect pressed{ 0, 720, 100, 75 };
-
-	Button* button = App->gui->AddButton(0.5f * win->rect.w, 0.0f * win->rect.h, nasty_buttons, true, &idle, &doSomething, &hovered, &pressed);
-	button->SetParent(win);
-	button->SetAnchor(0.5f, 0.5f);
-
-	text = App->gui->AddLabel(0.0f * button->rect.w, 0.0f * button->rect.h, 50, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 0, 255, 128 }, Label::BLENDED, "Hello %s", "World");
-	text->SetParent(button);
+	text->SetParent(win);
 	text->SetAnchor(0.5f, 0.5f);
+
+	SDL_Rect idle{ 0, 110, 230, 71 };
+	SDL_Rect hovered{ 411, 166, 230, 71 };
+	SDL_Rect pressed{ 641, 166, 230, 71 };
+
+	Button* button = nullptr;
+
+	for (uint i = 0; i < 4; i++)
+	{
+		button = App->gui->AddButton(0.0f * win->rect.w, (-0.3 + 0.2f*i) * win->rect.h, gui_atlas, true, &idle, &doSomething, &hovered, &pressed);
+		button->SetParent(win);
+		button->SetAnchor(0.5f, 0.5f);
+
+		text = App->gui->AddLabel((0.5f - button->GetAnchorX()) * button->rect.w, (0.5f - button->GetAnchorY()) * button->rect.h,
+			30, "fonts/open_sans/OpenSans-Bold.ttf", { 200, 200, 200, 255 }, Label::RenderMode::BLENDED, "Button #%d", i);
+		text->SetParent(button);
+		text->SetAnchor(0.5f, 0.5f);
+	}
 
 	return true;
 }
@@ -217,5 +228,5 @@ bool j1Scene::CleanUp()
 void doSomething(const char* message)
 {
 	LOG("%s", message);
-	App->render->ShakeIt(1.0f, 10);
+	//App->render->ShakeIt(1.0f, 10);
 }
