@@ -72,7 +72,7 @@ bool j1Scene::Start()
 	banner->SetParent(win);
 	banner->SetAnchor(0.5f, 0.5f);*/
 
-	text = App->gui->AddLabel(0.0f * win->rect.w, -0.5f * win->rect.h, 50, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 128, 128, 255 }, Label::BLENDED, "This is a %s", "Window");
+	text = App->gui->AddLabel(0.5f * win->rect.w, 0.0f * win->rect.h, 50, "fonts/open_sans/OpenSans-Bold.ttf", { 128, 128, 128, 255 }, Label::BLENDED, "This is a %s", "Window");
 	text->SetParent(win);
 	text->SetAnchor(0.5f, 0.5f);
 
@@ -84,11 +84,11 @@ bool j1Scene::Start()
 
 	for (uint i = 0; i < 4; i++)
 	{
-		button = App->gui->AddButton(0.0f * win->rect.w, (-0.3 + 0.2f*i) * win->rect.h, gui_atlas, true, &idle, &doSomething, &hovered, &pressed);
+		button = App->gui->AddButton(0.5f * win->rect.w, (0.2 + 0.2f*i) * win->rect.h, gui_atlas, true, &idle, &doSomething, &hovered, &pressed);
 		button->SetParent(win);
 		button->SetAnchor(0.5f, 0.5f);
 
-		text = App->gui->AddLabel((0.5f - button->GetAnchorX()) * button->rect.w, (0.5f - button->GetAnchorY()) * button->rect.h,
+		text = App->gui->AddLabel((1.0f - button->GetAnchorX()) * button->rect.w, (1.0f - button->GetAnchorY()) * button->rect.h,
 			30, "fonts/open_sans/OpenSans-Bold.ttf", { 200, 200, 200, 255 }, Label::RenderMode::BLENDED, "Button #%d", i);
 		text->SetParent(button);
 		text->SetAnchor(0.5f, 0.5f);
